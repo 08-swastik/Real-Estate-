@@ -1,47 +1,10 @@
-# from django.shortcuts import render
-# from django.contrib.auth.forms import UserCreationForm
-# from .forms import SellerRegistrationForm
-
-# def register(request):
-#     form = SellerRegistrationForm()
-#     if request.method == 'POST':
-#         form = SellerRegistrationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#         else:
-#             form = SellerRegistrationForm()
-#     return render(request, 'authentication/register.html', {'form': form})
-
-# from django.shortcuts import render, redirect
-# from .forms import CustomUserCreationForm
-# from .models import Seller
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             # Create a new user
-#             user = form.save()
-
-#             # Create a corresponding seller entry
-#             seller = Seller(user=user)
-#             seller.save()
-
-#             # Perform any additional actions or redirection
-#             return redirect('home')
-#     else:
-#         form = CustomUserCreationForm()
-
-#     # Render the registration form
-#     context = {'form': form}
-#     return render(request, 'authentication/register.html', context)
-
 import datetime
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm , SellerLoginForm
 from .models import Seller
+from django.contrib.auth import authenticate, login
 
-def register(request):
+def seller_register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -62,3 +25,22 @@ def register(request):
     context = {'form': form}
     return render(request, 'authentication/register.html', context)
 
+def seller_login(request):
+    if request.method == 'POST':
+        form = SellerLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None and user.is_seller:
+                login(request, user)
+                # Redirect to the seller's dashboard or home page
+                # return redirect('seller_dashboard')
+            else:
+                # Invalid login credentials or the user is not a seller
+                form.add_error(None, "Invalid login credentials")
+    else:
+        form = SellerLoginForm()
+
+    context = {'form': form}
+    return render(request, 'authentication/seller_login.html', context)
