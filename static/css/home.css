@@ -1,0 +1,249 @@
+/* google fonts ========== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* font-family: 'Poppins', sans-serif; */
+
+:root {
+  --clr-primary: #0f1b4c;
+  --clr-secondary: #063183;
+
+  --clr-white: #ffffff;
+  --clr-black: #000000;
+
+  --clr-light-blue: #0689ff;
+
+  --clr-title: #000336;
+
+  --clr-text: #5a6473;
+  --clr-text-light: #7d8589;
+  --clr-text-light-80: #a3a6ab;
+}
+
+/* base style ========== */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+
+  color: var(--clr-text);
+}
+
+h1,
+h2 {
+  line-height: 1.1;
+  color: var(--clr-title);
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* for making the image responsive  */
+img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: baseline;
+}
+
+/* public styling ========== */
+.container {
+  width: 1110px;
+  max-width: 95%;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.ai-c {
+  align-items: center;
+}
+
+.jc-sb {
+  justify-content: space-between;
+}
+
+.btn {
+  font-family: "poppins", sans-serif; 
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--clr-primary);
+  text-transform: capitalize;
+  display: inline-block;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.btn-fill {
+  border: 2px solid var(--clr-primary);
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+  transition-duration: .3s;
+  transition-property: border color background-color ;
+}
+
+.btn-fill:hover {
+  border: 2px solid var(--clr-primary);
+  background-color: transparent;
+  color: var(--clr-primary);
+}
+
+/* header style ========== */
+header {
+  padding: 24px 0;
+  background-color: #e6f0ff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}
+
+header  .container {
+  width: 1300px;
+}
+
+header .left {
+  gap: 64px;
+  justify-content: flex-start;
+}
+
+header .left img {
+  width: 100px;
+}
+
+header .left .nav-desktop {
+  display: none;
+  gap: 30px;
+}
+
+header .left .nav-desktop a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4f5361;
+  position: relative;
+}
+
+header .left .nav-desktop a::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background-color: var(--clr-light-blue);
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  transition: 0.3s width;
+}
+header .left .nav-desktop a:hover::after {
+  
+  width: 115%;
+}
+
+header .left .nav-desktop a:hover {
+  color: var(--clr-light-blue);
+}
+
+header .right  {
+  gap: 18px;
+}
+
+header .right .account {
+  padding: 0;
+}
+
+.hamb {
+  display: block;
+  width: 30px;
+  cursor: pointer;
+}
+
+.hamb span {
+  display: block;
+  height: 2px;
+  background-color: var(--clr-primary);
+  transition-duration: .3s;
+  transition-property: opacity transform;
+}
+
+.hamb span.mid {
+  margin: 7px;
+}
+
+.hamb.active span.top {
+  transform: translateY(9px) rotate(42deg);
+}
+.hamb.active span.mid {
+  opacity: 0;
+}
+
+.hamb.active span.bottom {
+  transform: translateY(-9px) rotate(-42deg);
+}
+
+
+
+
+/* mobile navigation ========== */
+
+.nav-mobile {
+  width: 100%;
+  height: auto;
+  padding: 80px 50px;
+  background-color: var(--clr-primary);
+  position: fixed;
+  top: -430px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  transition: 0.3s top;
+}
+
+.nav-mobile a {
+  color: light var(--clr-text-light);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.nav-mobile.active {
+  top: 6%;
+}
+.nav-mobile a:hover {
+  color: var(--clr-light-blue);
+}
+/* hero section style ========== */
+
+/* clients section style ========== */
+
+/* guide section style ========== */
+
+/* properties list style ========== */
+
+/* progress section style ========== */
+
+/* style for newsletter ========== */
+
+/* footer section style ========== */

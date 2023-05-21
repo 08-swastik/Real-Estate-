@@ -1,0 +1,96 @@
+{% extends "home/layout.html" %}
+{% block body %}
+{% load static %}
+
+<!-- adding custom js  -->
+
+<script src="{% static '/js/script.js' %}"></script>
+
+<link rel="stylesheet" href="{% static '/css/home.css' %}">
+<link rel="stylesheet" href="{% static '/css/mquery.css' %}">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+  <!-- adding remixicon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+<!-- header section -->
+<header>
+  <div class="container flex ai-c jc-sb">
+    <div class="left flex ai-c">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="page logo" srcset=""></a>
+      
+      <nav class="nav-desktop">
+        <a href="#">Home</a>
+        <a href="#">Add Listings</a>
+        <a href="#">Contact</a>
+        <a href="#">Services</a>
+      </nav>
+    </div>
+    
+    <div class="right flex ai-c">
+      <a href="#" class="btn account">Sign Up</a>
+      <button class="btn btn-fill">Register</button>
+
+      <div class="hamb">
+        <span class="top"></span>
+        <span class="mid"></span>
+        <span class="bottom"></span>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<nav class="nav-mobile">
+  <a href="#">Home</a>
+  <a href="#">Add Listings</a>
+  <a href="#">Contact</a>
+  <a href="#">Services</a>
+</nav>
+  <!-- hero section markup ========== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="desc">
+        <h3 class="tag">Welcome to RealtyHive</h3>
+        <h2 class="title">Discover a place you'll love to live</h2>
+        <p class="text">Get the best property deals first,before they reach the mass market! hot foreclosure deals with simple search</p>
+      </div>
+    </div>
+  </section>
+
+  
+  
+
+  
+
+  <!-- clients section markup ========== -->
+
+  <!-- guide section markup ========== -->
+
+  <!-- properties list section markup ========== -->
+
+  <!-- progress section markup ========== -->
+
+  <!-- newsletter markup ========== -->
+
+  <!-- website footer section ========== -->
+
+  
+
+
+
+
+<!-- Modal -->
+<!-- <div id="registerModal" class="modal">
+  <div class="modal-content">
+    <a href="{% url 'authentication:register' %}">Register as Seller</a>
+    <a href="{% url 'authentication:client_register' %}">Register as Client</a>
+  </div>
+</div> -->
+
+
+  
+
+{% endblock %}

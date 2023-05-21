@@ -1,0 +1,35 @@
+@media screen and (min-width: 540px) {
+  /* header image a gap size  */
+
+  /* increase company logo size ========== */
+
+  /* guide section style ========== */
+
+  /* increase font size of progress done  */
+}
+
+@media screen and (min-width: 700px) {
+  /* increase company logo size ========== */
+
+  /* setup placeholder image  */
+
+  /* footer top  */
+
+  /* footer bottom */
+}
+
+@media screen and (min-width: 850px) {
+  /* show desktop navigation ========== */
+
+  /* hide hamburger menu ==========  */
+
+  /* hero title size ========== */
+}
+
+@media screen and (min-width: 920px) {
+  /* increase hero background image size ========== */
+}
+
+@media screen and (min-width: 1280px) {
+  /* increase hero background image size ========== */
+}
