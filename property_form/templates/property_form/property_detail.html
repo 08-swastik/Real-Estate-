@@ -1,0 +1,29 @@
+{% extends 'property_form/layout.html' %}
+
+
+{% block body %}
+<h2>Property Details</h2>
+  <h3>Title: {{ property.title }}</h3>
+  <p>Address: {{ property.address }}</p>
+  <p>Square Feet: {{ property.square_feet }}</p>
+  <p>Overview: {{ property.overview }}</p>
+  <p>Price: {{ property.price }}</p>
+
+  <h3>Nearby Schools:</h3>
+  <ul>
+    {% for school in property.nearby_schools.all %}
+      <li>{{ school.name }} ({{ school.distance }} miles)</li>
+    {% empty %}
+      <li>No nearby schools found</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Nearby Police Stations:</h3>
+  <ul>
+    {% for station in property.nearby_police_stations.all %}
+      <li>{{ station.name }} ({{ station.distance }} miles)</li>
+    {% empty %}
+      <li>No nearby police stations found</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

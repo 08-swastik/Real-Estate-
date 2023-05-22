@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('authentication.urls', 'authentication'), namespace='authentication')),
     path('',include('home.urls')),
+    path('',include(('property_form.urls','property_form'),namespace = "property_form")),
     
  ]

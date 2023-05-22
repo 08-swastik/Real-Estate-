@@ -124,6 +124,14 @@
         <label class = "form-label" for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
         <input class="form-control" type="text" id="{{ form.phone_number.id_for_label }}" name="{{ form.phone_number.html_name }}" placeholder="Enter your phone number" required>
       </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.password1.id_for_label }}">Password:</label>
+        <input class="form-control" type="password" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}" placeholder="Enter a password" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+        <input class="form-control" type="password" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}" placeholder="Confirm your password" required>
+      </div>
       <button class="btn-register" type="submit">Register</button>
     </form>
     <p class="text-center">Already registered?<a href="{% url 'authentication:client_login' %}">Login here</a>.</p>

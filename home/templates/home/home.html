@@ -29,8 +29,8 @@
     </div>
     
     <div class="right flex ai-c">
-      <a href="#" class="btn account">Sign Up</a>
-      <button class="btn btn-fill">Register</button>
+      <a href="{% url 'authentication:login' %}" class="btn account">Sign Up</a>
+      <a href="{% url 'authentication:register' %}"><button class="btn btn-fill">Register</button></a>
 
       <div class="hamb">
         <span class="top"></span>
@@ -60,15 +60,35 @@
     </div>
   </section>
 
-  
-  
+  <section class="property" id="listed">
+    <div class="container">
+      <div class="top flex jc-sb">
+        <div class="heading">
+          <h3>Featured properties</h3>
+          <p>Everything you need to know when you're looking.
+          </p>
+        </div>
 
-  
+        
+      </div>
 
-  <!-- clients section markup ========== -->
+      <div class="list flex ai-c">
+        <a href="#" class="card">
+          <div class="placeholder"></div>
 
-  <!-- guide section markup ========== -->
+          <div class="bottom">
+            <h4>$3500</h4>
+            <p>8502 priceton street. Inglewood, Maine 908865</p>
 
+            <div class="features">
+              <span><i class="ri-home-5-line"></i>2 BHK</span>
+              <span><i class="ri-ruler-2-line"></i>1800 Sqft</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
   <!-- properties list section markup ========== -->
 
   <!-- progress section markup ========== -->

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Seller
 
 class CustomUserCreationForm(UserCreationForm):
     address = forms.CharField(max_length=100)
@@ -8,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number']
+        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number','password1','password2']
 
 class SellerLoginForm(AuthenticationForm):
     class Meta:
@@ -21,7 +22,7 @@ class ClientCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number']
+        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number','password1','password2']
 
 class ClientLoginForm(AuthenticationForm):
     class Meta:

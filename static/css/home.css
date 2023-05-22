@@ -128,12 +128,13 @@ header .left {
 }
 
 header .left img {
-  width: 100px;
+  width: 213px;
 }
 
 header .left .nav-desktop {
-  display: none;
+  display: flex;
   gap: 30px;
+  display: none;
 }
 
 header .left .nav-desktop a {
@@ -170,12 +171,11 @@ header .right  {
 header .right .account {
   padding: 0;
 }
-
 .hamb {
   display: block;
   width: 30px;
   cursor: pointer;
-}
+} 
 
 .hamb span {
   display: block;
@@ -199,10 +199,6 @@ header .right .account {
 .hamb.active span.bottom {
   transform: translateY(-9px) rotate(-42deg);
 }
-
-
-
-
 /* mobile navigation ========== */
 
 .nav-mobile {
@@ -235,13 +231,134 @@ header .right .account {
   color: var(--clr-light-blue);
 }
 /* hero section style ========== */
+.hero {
+  width: 100%;
+  height: 100vh;
+  background-color: #e6f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('/static/images/house.png');
+  background-repeat: no-repeat;
+  background-position: right 65px bottom;
+  background-size: 50%;
+}
 
-/* clients section style ========== */
 
-/* guide section style ========== */
+.hero .desc {
+  width: 560px;
+  max-width: 100%;
+}
+
+.hero .desc .tag {
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--clr-light-blue);
+}
+
+.hero .desc .title {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 12px 0 32px;
+
+}
+
 
 /* properties list style ========== */
+.property {
+  padding: 100px 0;
+   background-color: #f5fafe; 
 
+}
+.property .top {
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 60px;
+  align-items: flex-end;
+}
+
+.property .top h3 {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--clr-title);
+  margin-bottom: 8px;
+}
+
+.property .list {
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+
+}
+
+.property .list .card{
+  background-color: var(--clr-white);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.property .list .card:hover {
+  box-shadow: 0 45px 80px rgba(0,0,0,0.04);
+}
+.property .list .placeholder {
+  width: 100%;
+  height: 230px;
+  background-color: var(--clr-light-blue);
+  background-image: url('/static/images/house.png' );
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-size: 110%;
+  transition-duration: 0.3s;
+  transition-property: background-size box-shadow;
+
+}
+
+.property .list .placeholder {
+  width: 100%;
+  height: 230px;
+  background-color: var(--clr-light-blue);
+  background-image: url('/static/images/house.png' );
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-size: 110%;
+  transition-duration: 0.3s;
+  transition-property: background-size box-shadow;
+  
+}
+
+.property .list .card:hover .placeholder {
+  background-size: 130%;
+}
+
+.property .list .bottom {
+  padding: 20px;
+}
+
+.property .list .bottom p {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--clr-text-light-80);
+  margin: 8px 0;
+}
+
+.property .list .features {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.property .list .features span {
+  font-size: 14px;
+  color: var(--clr-text);
+
+}
+
+.property .list .features span i {
+  font-size: 1rem;
+  vertical-align: middle;
+}
 /* progress section style ========== */
 
 /* style for newsletter ========== */
