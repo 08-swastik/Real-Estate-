@@ -20,6 +20,6 @@ def property_detail(request, property_id):
     property_instance = Property.objects.get(id=property_id)
     return render(request, 'property_form/property_detail.html', {'property': property_instance})
 
-# Other views for property listing modification, deletion, etc.
+
 
 # Create your views here.
