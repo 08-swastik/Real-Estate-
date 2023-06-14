@@ -2,6 +2,7 @@
 {% block body %}
 {% load static %}
 
+
 <!-- adding custom js  -->
 
 <script src="{% static '/js/script.js' %}"></script>
@@ -22,16 +23,40 @@
       
       <nav class="nav-desktop">
         <a href="#">Home</a>
-        <a href="#">Add Listings</a>
+
+        {% if request.user.seller %}
+          <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+        {% else %}
+          <a href="#" onclick="showError()">Add Listing</a>
+        {% endif %}    
         <a href="#">Contact</a>
         <a href="#">Services</a>
       </nav>
     </div>
     
     <div class="right flex ai-c">
-      <a href="{% url 'authentication:login' %}" class="btn account">Sign Up</a>
-      <a href="{% url 'authentication:register' %}"><button class="btn btn-fill">Register</button></a>
+      {% if user.is_authenticated %}
+        <!-- User is logged in -->
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+      {% else %}
 
+        <!-- <div class="dropdown1">
+          <button class="btn account">SignUp</button>
+          <div class="SignUpContent">
+            <a href="{% url 'authentication:login' %}">Seller SignIn</a>
+            <a href="{% url 'authentication:client_login' %}">Client SignIn</a>
+          </div>
+        </div> -->
+          <a href="{% url 'authentication:login' %}" class="btn account">Sign Up</a> 
+        <a href="{% url 'authentication:register' %}"><button class="btn btn-fill">Register</button></a> 
+      {% endif %}
       <div class="hamb">
         <span class="top"></span>
         <span class="mid"></span>
@@ -73,19 +98,22 @@
       </div>
 
       <div class="list flex ai-c">
+
+        {% for property in properties %}
         <a href="#" class="card">
-          <div class="placeholder"></div>
+          <div class="placeholder" style="background-image: url('{{ property.pictures.url }}');"></div>
 
           <div class="bottom">
-            <h4>$3500</h4>
-            <p>8502 priceton street. Inglewood, Maine 908865</p>
+            <h4>{{ property.price }}</h4>
+            <p>{{ property.overview }}</p>
 
             <div class="features">
-              <span><i class="ri-home-5-line"></i>2 BHK</span>
-              <span><i class="ri-ruler-2-line"></i>1800 Sqft</span>
+              <span><i class="ri-home-5-line"></i>{{ property.bhk }} BHK</span>
+              <span><i class="ri-ruler-2-line"></i>{{ property.square_feet }} Sqft</span>
             </div>
           </div>
         </a>
+        {% endfor %}
       </div>
     </div>
   </section>

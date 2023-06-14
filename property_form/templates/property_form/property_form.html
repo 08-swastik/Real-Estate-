@@ -1,12 +1,118 @@
 {% extends 'property_form/layout.html' %}
 
-
 {% block body %}
-<h2>Create Property Listing</h2>
-  <form method="POST" enctype="multipart/form-data">
+
+<!--  property_form.css  -->
+<style>
+
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .form-textarea {
+    width: 100%;
+    padding: 8px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.form-file {
+  margin-bottom: 10px;
+}
+
+.form-submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-submit-btn:hover {
+  background-color: #45a049;
+}
+</style>
+
+ <!-- Optional: Add more styling as needed  -->
+
+  <h2>Create Property Listing</h2>
+  <!-- add_property.html -->
+
+
+  
+
+
+  <form class="form-container" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+
+    <!-- Seller (hidden field) -->
+    <input type="hidden" name="seller" value="{{ seller.id }}">
+
+    <!-- Address -->
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" class="form-input" required>
+
+    <!-- Square Feet -->
+    <label for="square_feet">Square Feet:</label>
+    <input type="text" id="square_feet" name="square_feet" class="form-input" required>
+
+    <!-- Overview -->
+    <label for="overview">Overview:</label>
+    <textarea id="overview" name="overview" class="form-textarea" required></textarea>
+
+    <!-- BHK -->
+    <label for="bhk">BHK:</label>
+    <input type="text" id="bhk" name="bhk" class="form-input" required>
+
+    <!-- Nearby Hospitals -->
+    <label for="nearby_hospitals">Nearby Hospitals:</label>
+    <input type="text" id="nearby_hospitals" name="nearby_hospitals" class="form-input" required>
+
+    <!-- Nearby Schools -->
+    <label for="nearby_schools">Nearby Schools:</label>
+    <input type="text" id="nearby_schools" name="nearby_schools" class="form-input" required>
+
+    <!-- Nearby Police Station -->
+    <label for="nearby_police_station">Nearby Police Station:</label>
+    <input type="text" id="nearby_police_station" name="nearby_police_station" class="form-input" required>
+
+    <!-- Price -->
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" class="form-input" required>
+
+    <!-- Pictures -->
+    <label for="pictures">Pictures:</label>
+    <input type="file" id="pictures" name="pictures" class="form-file" accept="image/*" required>
+
+    <!-- Submit Button -->
+    <button type="submit" class="form-submit-btn">Add Property</button>
   </form>
 
+  <script>
+    function validateForm() {
+      var address = document.getElementById("address").value;
+      var squareFeet = document.getElementById("square_feet").value;
+      var overview = document.getElementById("overview").value;
+      var bhk = document.getElementById("bhk").value;
+      var nearbyHospitals = document.getElementById("nearby_hospitals").value;
+      var nearbySchools = document.getElementById("nearby_schools").value;
+      var nearbyPoliceStation = document.getElementById("nearby_police_station").value;
+      var price = document.getElementById("price").value;
+
+      // validation checks here
+      if (address === "" || squareFeet === "" || overview === "" || bhk === "" || nearbyHospitals === "" || nearbySchools === "" || nearbyPoliceStation === "" || price === "") {
+        alert("Please fill in all fields.");
+        return false;
+      }
+      
+      return true;
+    }
+  </script>
 {% endblock %}

@@ -10,3 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  function showError() {
+    alert("Please log in or register as a seller first.");
+    window.location = "/"; // Redirect to the home page
+  }
+  

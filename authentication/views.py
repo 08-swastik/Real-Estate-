@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm , SellerLoginForm,ClientCreationForm,ClientLoginForm
 from .models import Seller,Client
 from django.contrib.auth import authenticate, login
-
+from django.contrib.auth import logout as auth_logout
 #seller registration
 def seller_register(request):
     if request.method == 'POST':
@@ -18,9 +18,14 @@ def seller_register(request):
             
             seller.save()
 
+
+            login(request, user)  # Log in the user
+            messages.success(request, 'Registration successful. You are now logged in.')
+            return redirect('home')
+
             # Perform any additional actions or redirection
-            messages.success(request, 'Registration successful. Please log in.')
-            return redirect('authentication:login')
+            # messages.success(request, 'Registration successful. Please log in.')
+            # return redirect('authentication:login')
     else:
         form = CustomUserCreationForm()
 
@@ -66,8 +71,12 @@ def client_register(request):
             client.save()
 
             # Perform any additional actions or redirection
-            messages.success(request, 'Registration successful. Please log in.')
-            return redirect('authentication:client_login')
+
+            login(request, user)  # Log in the user
+            messages.success(request, 'Registration successful. You are now logged in.')
+            return redirect('home')
+            # messages.success(request, 'Registration successful. Please log in.')
+            # return redirect('authentication:client_login')
     else:
         form = ClientCreationForm()
 
@@ -98,3 +107,8 @@ def client_login(request):
 
     context = {'form': form}
     return render(request, 'authentication/client_login.html', context)
+
+def logout(request):
+
+    auth_logout(request)
+    return redirect('home')
