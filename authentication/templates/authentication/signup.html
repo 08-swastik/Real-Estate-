@@ -1,0 +1,55 @@
+{% extends 'authentication/layout.html' %}
+
+{% block body %}
+
+<style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      /* margin: 0; */
+      
+      background-color: #0f1b4c;
+    }
+    
+    .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 305px;
+    width: 410px;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #ffffff;
+  }
+  
+  .small-container {
+    margin: 10px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid #333;
+  }
+  
+  .small-container a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  </style>
+
+<div class="container">
+    <div class="small-container">
+        <a href="{% url 'authentication:register' %}">Seller Register</a>
+      </div>
+      <div class="small-container">
+        <a href="{% url 'authentication:client_register' %}">Client Register</a>
+  </div>
+
+{% endblock %}

@@ -15,6 +15,11 @@ class SellerLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+        help_texts = {
+            'username': None,
+            'password' :None,
+        }
+
 
 class ClientCreationForm(UserCreationForm):
     address = forms.CharField(max_length=100)

@@ -96,12 +96,24 @@ Register
     margin-top: 20px;
     font-size: 1.2rem;
   }
+
+  
 </style>
 
 <div class="card">
   <h2 class="card-header">Register as a Seller</h2>
   <form class="registration-form" method="POST">
     {% csrf_token %}
+
+    {% if form.errors %}
+      <ul class="errorlist">
+        {% for field_errors in form.errors.values %}
+          {% for error in field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    {% endif %}
     <div class="form-group">
      <label class = "form-label" for="{{ form.username.id_for_label }}">Username:</label>
       <input class="form-control" type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" placeholder="Enter a unique username" required>

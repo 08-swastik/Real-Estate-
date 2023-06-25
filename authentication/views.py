@@ -5,6 +5,7 @@ from .forms import CustomUserCreationForm , SellerLoginForm,ClientCreationForm,C
 from .models import Seller,Client
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
 #seller registration
 def seller_register(request):
     if request.method == 'POST':
@@ -18,10 +19,11 @@ def seller_register(request):
             
             seller.save()
 
+            if user is not None:
 
-            login(request, user)  # Log in the user
-            messages.success(request, 'Registration successful. You are now logged in.')
-            return redirect('home')
+                login(request, user)  # Log in the user
+                
+                return redirect('home')
 
             # Perform any additional actions or redirection
             # messages.success(request, 'Registration successful. Please log in.')
@@ -40,21 +42,26 @@ def seller_login(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('home')
+                if hasattr(user, 'seller'):
+                    login(request, user)
+                    return redirect('home')
+                
+                else :
+                    messages.error(request, "Invalid login credentials.")
             else:
-                # User is not registered
-                messages.error(request, "User is not registered. Please register as a Seller.")
-                form = SellerLoginForm()
-        else:
-            # Invalid login credentials
-            messages.error(request, "Invalid login credentials.")
+                messages.error(request, "Invalid login credentials.")
     else:
         form = SellerLoginForm()
 
-    context = {'form': form}
+    # Remove the default help text
+       
+    
+    context = {
+        'form': form,
+    }
     return render(request, 'authentication/seller_login.html', context)
 
 #client register
@@ -73,7 +80,7 @@ def client_register(request):
             # Perform any additional actions or redirection
 
             login(request, user)  # Log in the user
-            messages.success(request, 'Registration successful. You are now logged in.')
+            
             return redirect('home')
             # messages.success(request, 'Registration successful. Please log in.')
             # return redirect('authentication:client_login')
@@ -93,15 +100,17 @@ def client_login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('home')
+                if hasattr(user, 'client'):
+                    login(request, user)
+                    return redirect('home')
+
+                else:
+                    messages.error(request, "Invalid login credentials.")
             else:
-                # User is not registered
-                messages.error(request, "User is not registered. Please register as a Seller.")
-                form = ClientLoginForm()
-        else:
-            # Invalid login credentials
-            messages.error(request, "Invalid login credentials.")
+                messages.error(request, "Invalid login credentials.")
+            
+                
+
     else:
         form = ClientLoginForm()
 
@@ -112,3 +121,12 @@ def logout(request):
 
     auth_logout(request)
     return redirect('home')
+
+
+def signin(request):
+
+    return render(request,'authentication/signin.html')
+
+def  signup(request):
+
+    return render(request,'authentication/signup.html')

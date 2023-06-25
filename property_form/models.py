@@ -3,6 +3,7 @@ from authentication.models import Seller
 
 class Property(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    is_featured = models.BooleanField(default=False)
     address = models.CharField(max_length=200)
     square_feet = models.PositiveIntegerField()
     overview = models.TextField()
