@@ -5,18 +5,10 @@ from property_form.models import Property
 # Create your views here.
 def home(request):
 
-
     properties = Property.objects.all
 
-    # search_query = request.GET.get('search_query', '')
-    
-    # # Query all properties
-    # search_results = Property.objects.filter(address__icontains=search_query)
-    
     context = {
         'properties': properties,
-        # 'search_results': search_results,
-        # 'search_query': search_query,
     }
     
     

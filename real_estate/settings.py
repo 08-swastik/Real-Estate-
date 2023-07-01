@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authentication',
     'home',
     'property_form',
+    'property_description_trade',
     
 ]
 

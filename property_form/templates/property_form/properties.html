@@ -1,0 +1,92 @@
+{% extends 'property_form/layout.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/properties.css' %}">
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+    </div>
+      <div class="nav-middle">
+      <div class="search-local">
+        <div class="icon">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+        
+        <input id = "search-input" type="text" placeholder=" Search for City...">
+        <button id="search-button" data-url="{% url 'property_form:properties' %}">
+          <span class="search-text">Search</span>            
+        </button>
+      
+      </div>
+
+      <div id="search-results"></div>
+      </div>
+    
+    <div class="navbar-right">
+      {% if user.is_authenticated %}
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
+      {% else %}
+      <!-- User is not logged in -->
+      <a href="{% url 'authentication:signin' %}"><button class="btn account">Sign In</button></a>
+        <a href="{% url 'authentication:signup' %}"><button class="btn btn-fill">Register</button></a>
+      {% endif %}
+    </div>
+  </nav>
+  
+  <section class="property-section">
+      {% if properties %}
+    <h2 class="heading1">Search results for:</h2>
+    <h2 class="property-heading">{{ searched_city }},Real Estate & Homes For Sale</h2>
+  <div class="property-container">
+    {% for property in properties %}
+
+    <div class="property-card">
+        <div class="property-image">
+          <a href="{% url 'property_description_trade:property_detail' property.id %}">
+        <img src="{{ property.pictures.url }}" alt="Property Photo">
+        <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+    </div>
+    <div class="property-details">
+        <div class="price">{{ property.price }}/Year</div>
+        <div class="address">{{ property.address }}</div>
+        <div class="overview">
+            <p>{{ property.overview }}</p>
+        </div>
+        <div class="bottom-line">
+            <div class="bedrooms">{{ property.bhk }} rooms</div>
+            <div class="bathrooms">2 Bathrooms</div>
+            <div class="square-feet">{{ property.square_feet }} sqft</div>
+        </div>
+    </div>
+</a>
+   </div>
+
+   {% endfor %}
+   
+</div>
+{% else %}
+<h2 class="heading1">No properties found for the city: {{ searched_city }}</h2>
+{% endif %}
+  </section>
+
+  <script src="{% static '/js/script.js' %}"></script>
+{% endblock %}

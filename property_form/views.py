@@ -45,5 +45,15 @@ def property_detail(request, property_id):
     return render(request, 'property_form/property_detail.html', {'property': property_instance})
 
 
+def properties(request):
+     
+    city = request.GET.get('city')
+    properties = Property.objects.filter(address__icontains=city) if city else []
 
+    context = {
+        'properties': properties,
+        'searched_city': city,
+    }
+     
+    return render(request, 'property_form/properties.html' , context)
 # Create your views here.

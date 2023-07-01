@@ -1,0 +1,166 @@
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static '/css/payment.css' %}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+
+
+<article class="card">
+    <div class="container">
+
+        <div class="price">
+            <h2> Payment of {{ property_price }}</h2>
+            <h4>TO</h4>
+        </div>
+        <header class="heading">
+            <div class="logo">
+                <img src="{%static 'images/logo.png' %}" alt="Company Logo">
+            </div>
+        </header>
+        
+        <div class="card-body">
+            <div class="payment-type">
+                <h4>Choose payment method below</h4>
+                <div class="types flex justify-space-between">
+                    <div class="type selected">
+                        <div class="logo">
+                            <i class="far fa-credit-card"></i>
+                        </div>
+                        <div class="text">
+                            <p>Pay with DeBit Card</p>
+                        </div>
+                    </div>
+                    <div class="type">
+                        <div class="logo">
+                            <i class="fab fa-paypal"></i>
+                        </div>
+                        <div class="text">
+                            <p>Pay with PayPal</p>
+                        </div>
+                    </div>
+                    <div class="type">
+                        <div class="logo">
+                            <i class="fab fa-amazon"></i>
+                        </div>
+                        <div class="text">
+                            <p>Pay with Amazon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="payment-info flex justify-space-between">
+            <div class="column billing">
+                <div class="title">
+                    <div class="num">1</div>
+                    <h4>Billing Info</h4>
+                </div>
+
+                <form method="POST" >
+                    {% csrf_token %}  
+                    
+                     
+                <div class="field full">
+                    <label for="billing_name">Full Name</label>
+                    <input id="billing_name" name="billing_name" type="text" placeholder="Full Name" required>
+                </div>
+                <div class="field full">
+                    <label for="address">Billing Address</label>
+                    <input id="address" type="text" placeholder="Billing Address" required>
+                </div>
+                <div class="flex justify-space-between">
+                    <div class="field half">
+                        <label for="city">City</label>
+                        <input id="city" type="text" placeholder="City" required>
+                    </div>
+                    <div class="field half">
+                        <label for="state">State</label>
+                        <input id="state" type="text" placeholder="State" required>
+                    </div>
+                </div>
+                <div class="field full">
+                    <label for="zip">Zip</label>
+                    <input id="zip"  type="text" pattern="[0-9]{6,8}" placeholder="Zip" required>
+                </div>
+            </div>
+            <div class="column shipping">
+                <div class="title">
+                    <div class="num">2</div>
+                    <h4>Debit Card Info</h4>
+                </div>
+                <div class="field full">
+                    <label for="name">Cardholder Name</label>
+                    <input id="name" type="text" placeholder="Full Name" required>
+                </div>
+                <div class="field full">
+                    <label for="address">Card Number</label>
+                    <input id="address" type="text" pattern="[0-9]{16}" placeholder="1234-5678-9012-3456" required>
+                </div>
+                <div class="flex justify-space-between">
+                    <div class="field half">
+                        <label for="exp-month">Exp. Month</label>
+                        <select id="exp-month" class="half" required>
+                            <option value="">Select Month</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                           
+                        </select>
+                    </div>
+                    
+                    
+                    <div class="field half">
+                        <label for="state">Exp. Year</label>
+                        <select id="state" class="half" required>
+                            <option value="">Select Year</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                            <option value="2031">2031</option>
+                            <option value="2032">2032</option>
+                            <option value="2033">2033</option>
+                            <option value="2034">2034</option>
+                           
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="field full">
+                    <label for="zip">CVC Number</label>
+                    <input id="zip" type="text" pattern="[0-9]{3}" placeholder="468" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-actions flex justify-space-between">
+        <div class="flex-start">
+            <a href="{% url 'property_description_trade:property_detail' property.id %}" class="button button-link">Return to Properties</a>
+        </div>
+        
+        <div class="flex-end">
+            
+            <button type="submit"  class="button button-primary">Proceed to pay</button>
+        </div>
+    </div>
+</form>
+</article>
+
+
+{% endblock %}

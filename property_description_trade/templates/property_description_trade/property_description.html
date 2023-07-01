@@ -1,0 +1,162 @@
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+{% load static %}
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/property_description.css' %}">
+
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+    </div>
+      <div class="nav-middle">
+      <div class="search-local">
+        <div class="icon">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+        
+        <input id = "search-input" type="text" placeholder=" Search for City...">
+        <button id="search-button" data-url="{% url 'property_form:properties' %}">
+          <span class="search-text">Search</span>            
+        </button>
+      
+      </div>
+
+      <div id="search-results"></div>
+      </div>
+    
+    <div class="navbar-right">
+      {% if user.is_authenticated %}
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
+      {% else %}
+      <!-- User is not logged in -->
+      <a href="{% url 'authentication:signin' %}"><button class="btn account">Sign In</button></a>
+        <a href="{% url 'authentication:signup' %}"><button class="btn btn-fill">Register</button></a>
+      {% endif %}
+    </div>
+  </nav>
+
+<div class="property-description">
+    <div class="property-image">
+        <img src="{{ property_image }}" alt="Property Image">
+        
+        
+          
+        <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+    </div>
+    <div class="property-details">
+        <div class="property-title">
+            <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+            <span class="property-price"><span>₹</span>{{ property_price }}</span>
+            
+        </div>
+
+        <div class="property-buttons">
+            <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+        </div>
+        
+        <script>
+            function handleBuyNow() {
+                var isAuthenticated = "{{ request.user.is_authenticated }}";
+                if (isAuthenticated === "True") {
+                    redirectToPayment();
+                } else {
+                    showSignInAlert();
+                }
+            }
+
+            function redirectToPayment() {
+                window.location.href = 'payment'
+        
+            }
+
+            function showSignInAlert() {
+        alert("Please sign in first!");
+    }
+</script>
+        
+        
+        <div class="property-features">
+            <ul>
+                <li><i class="fas fa-bed"></i> <strong> {{ bhk  }}</strong> Beds</li>
+                <li><i class="fas fa-bath"></i> <strong> 3</strong> Baths</li>
+                <li><i class="fas fa-expand"></i> <strong> {{ property_sqft }}</strong> sqft</li>
+            </ul>
+            
+            <div class="map-additional">
+                <button id="map-button" class="property-button map-button active" onclick="showMap()">Map</button>
+                <button id="additional-info-button" class="property-button additional-info-button" onclick="toggleAdditionalInfo()">Additional Information</button>
+            </div>
+            
+            <div id="map-container" style="display: block;">
+                <!-- Map content goes here -->
+            </div>
+            <div id="additional-info" style="display: none;">
+                <div class="columns-container">
+                    <div class="columns-row">
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Schools:</h4>
+                            <ul>
+                                <li>{{ nearby_schools }}</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Police Stations:</h4>
+                            <ul>
+                                <li>{{ nearby_PS }}</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Hospitals:</h4>
+                            <ul>
+                                <li>{{ nearby_hospital }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+        </div>
+        <div class="property-description-text">
+            <h2>Overview</h2>
+            <p>{{ property_overview }}</p>
+        </div>
+        <div class="property-key-features">
+            <h2>Key Features</h2>
+            <ul>
+                <li><i class="fas fa-check"></i> This property spans over {{ property_sqft }} square feet, providing ample space for comfortable living and entertaining.</li>
+                <li><i class="fas fa-check"></i> The house features {{ bhk }} bedrooms, including a master suite with a private en-suite bathroom.</li>
+                <li><i class="fas fa-check"></i> There are three full bathrooms, tastefully designed and featuring high-end fixtures.</li>
+                <li><i class="fas fa-check"></i> The gourmet kitchen is a chef's dream, equipped with top-of-the-line stainless steel appliances, granite countertops, and plenty of storage space.</li>
+                <li><i class="fas fa-check"></i> The main level boasts an open-concept layout, perfect for hosting gatherings and creating lasting memories with family and friends.</li>
+                <li><i class="fas fa-check"></i> The property includes a well-maintained backyard with a spacious patio, ideal for outdoor dining and relaxation.</li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+
+<script src="{% static '/js/script.js' %}"></script>
+<script src="{% static '/js/property_description.js' %}"></script>
+{% endblock %}

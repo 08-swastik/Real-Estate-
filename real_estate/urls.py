@@ -26,6 +26,6 @@ urlpatterns = [
     path('', include(('authentication.urls', 'authentication'), namespace='authentication')),
     path('',include('home.urls')),
     path('',include(('property_form.urls','property_form'),namespace = "property_form")),
-    
+    path('',include(('property_description_trade.urls','property_description_trade'),namespace = "property_description_trade")),
  ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

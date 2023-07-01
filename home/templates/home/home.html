@@ -7,10 +7,10 @@
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
 <link rel="stylesheet" href="{% static '/css/home.css' %}">
 <link rel="stylesheet" href="{% static '/css/mquery.css' %}">
-<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<!-- <link rel="shortcut icon" href="favicon.png" type="image/x-icon"> -->
 
 <!-- adding remixicon -->
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -46,15 +46,14 @@
           </div>
         </div> 
         
-        {% else %}
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
         
-        <!-- <div class="dropdown1">
-          <button class="btn account">SignUp</button>
-          <div class="SignUpContent">
-            <a href="{% url 'authentication:login' %}">Seller SignIn</a>
-            <a href="{% url 'authentication:client_login' %}">Client SignIn</a>
-          </div>
-        </div> -->
+        
+        {% else %}
         
         <a href="{% url 'authentication:signin' %}"><button class="btn account">Sign In</button></a>
         <a href="{% url 'authentication:signup' %}"><button class="btn btn-fill">Register</button></a>
@@ -92,11 +91,11 @@
             <ion-icon name="location-outline"></ion-icon>
           </div>
           
-          <input id = "search-input" type="text" placeholder="Location...">
-          <button id="search-button">
-            <a href="#">Search</a>
-            
+          <input id = "search-input" type="text" value="" autocomplete = 'off' placeholder=" Search for City...">
+          <button id="search-button" data-url="{% url 'property_form:properties' %}">
+            <span class="search-text">Search</span>            
           </button>
+        
         </div>
 
         <div id="search-results"></div>
@@ -115,34 +114,36 @@
 
       <ul class="property-list has-scrollbar">
 
+        {% for property in properties %}
+        {% if property.is_featured %}
         <li>
           <div class="property-card">
 
             <figure class="card-banner">
-
-              <a href="#">
-                <img src="{%static 'images/property-1.jpg' %}" alt="New Apartment Nice View" class="w-100">
+              <a href="{% url 'property_description_trade:property_detail' property.id %}">
+                <img src="{{ property.pictures.url }}" alt="New Apartment Nice View" class="w-100">
+                <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
               </a>
             </figure>
             
             <div class="card-content">
 
               <div class="card-price">
-                <strong>$34,900</strong>/Month
+                <strong>{{ property.price }}</strong>
               </div>
 
               <h3 class="h3 card-title">
-                <a href="#">123 Main street,Washington</a>
+                <a href="{% url 'property_description_trade:property_detail' property.id %}">{{ property.address }}</a>
               </h3>
 
               <p class="card-text">
-                Beautiful Huge 1 Family House In Heart Of Westbury. Newly Renovated With New Wood
+                {{ property.overview }}
               </p>
 
               <ul class="card-list">
 
                 <li class="card-item">
-                  <strong>3</strong>
+                  <strong>{{  property.bhk }}</strong>
 
                   <ion-icon name="bed-outline"></ion-icon>
 
@@ -158,7 +159,7 @@
                 </li>
 
                 <li class="card-item">
-                  <strong>3450</strong>
+                  <strong>{{ property.square_feet }}</strong>
 
                   <ion-icon name="square-outline"></ion-icon>
 
@@ -166,291 +167,17 @@
                 </li>
 
               </ul>
-              
+              {% endif %}
+              {% endfor %}
             </div>
         </li>  
         
-        <li>
-          <div class="property-card">
-
-            <figure class="card-banner">
-
-              <a href="#">
-                <img src="{%static 'images/property-1.jpg' %}" alt="New Apartment Nice View" class="w-100">
-              </a>
-            </figure>
-            
-            <div class="card-content">
-
-              <div class="card-price">
-                <strong>$34,900</strong>/Month
-              </div>
-
-              <h3 class="h3 card-title">
-                <a href="#">123 Main street,Washington</a>
-              </h3>
-
-              <p class="card-text">
-                Beautiful Huge 1 Family House In Heart Of Westbury. Newly Renovated With New Wood
-              </p>
-
-              <ul class="card-list">
-
-                <li class="card-item">
-                  <strong>3</strong>
-
-                  <ion-icon name="bed-outline"></ion-icon>
-
-                  <span>Bedrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>2</strong>
-
-                  <ion-icon name="man-outline"></ion-icon>
-
-                  <span>Bathrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>3450</strong>
-
-                  <ion-icon name="square-outline"></ion-icon>
-
-                  <span>Square Ft</span>
-                </li>
-
-              </ul>
-              
-            </div>
-        </li> 
-
-        <li>
-          <div class="property-card">
-
-            <figure class="card-banner">
-
-              <a href="#">
-                <img src="{%static 'images/property-1.jpg' %}" alt="New Apartment Nice View" class="w-100">
-              </a>
-            </figure>
-            
-            <div class="card-content">
-
-              <div class="card-price">
-                <strong>$34,900</strong>/Month
-              </div>
-
-              <h3 class="h3 card-title">
-                <a href="#">123 Main street,Washington</a>
-              </h3>
-
-              <p class="card-text">
-                Beautiful Huge 1 Family House In Heart Of Westbury. Newly Renovated With New Wood
-              </p>
-
-              <ul class="card-list">
-
-                <li class="card-item">
-                  <strong>3</strong>
-
-                  <ion-icon name="bed-outline"></ion-icon>
-
-                  <span>Bedrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>2</strong>
-
-                  <ion-icon name="man-outline"></ion-icon>
-
-                  <span>Bathrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>3450</strong>
-
-                  <ion-icon name="square-outline"></ion-icon>
-
-                  <span>Square Ft</span>
-                </li>
-
-              </ul>
-              
-            </div>
-        </li> 
-
-        <li>
-          <div class="property-card">
-
-            <figure class="card-banner">
-
-              <a href="#">
-                <img src="{%static 'images/property-1.jpg' %}" alt="New Apartment Nice View" class="w-100">
-              </a>
-            </figure>
-            
-            <div class="card-content">
-
-              <div class="card-price">
-                <strong>$34,900</strong>/Month
-              </div>
-
-              <h3 class="h3 card-title">
-                <a href="#">123 Main street,Washington</a>
-              </h3>
-
-              <p class="card-text">
-                Beautiful Huge 1 Family House In Heart Of Westbury. Newly Renovated With New Wood
-              </p>
-
-              <ul class="card-list">
-
-                <li class="card-item">
-                  <strong>3</strong>
-
-                  <ion-icon name="bed-outline"></ion-icon>
-
-                  <span>Bedrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>2</strong>
-
-                  <ion-icon name="man-outline"></ion-icon>
-
-                  <span>Bathrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>3450</strong>
-
-                  <ion-icon name="square-outline"></ion-icon>
-
-                  <span>Square Ft</span>
-                </li>
-
-              </ul>
-              
-            </div>
-        </li> 
-
-        <li>
-          <div class="property-card">
-
-            <figure class="card-banner">
-
-              <a href="#">
-                <img src="{%static 'images/property-1.jpg' %}" alt="New Apartment Nice View" class="w-100">
-              </a>
-            </figure>
-            
-            <div class="card-content">
-
-              <div class="card-price">
-                <strong>$34,900</strong>/Month
-              </div>
-
-              <h3 class="h3 card-title">
-                <a href="#">123 Main street,Washington</a>
-              </h3>
-
-              <p class="card-text">
-                Beautiful Huge 1 Family House In Heart Of Westbury. Newly Renovated With New Wood
-              </p>
-
-              <ul class="card-list">
-
-                <li class="card-item">
-                  <strong>3</strong>
-
-                  <ion-icon name="bed-outline"></ion-icon>
-
-                  <span>Bedrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>2</strong>
-
-                  <ion-icon name="man-outline"></ion-icon>
-
-                  <span>Bathrooms</span>
-                </li>
-
-                <li class="card-item">
-                  <strong>3450</strong>
-
-                  <ion-icon name="square-outline"></ion-icon>
-
-                  <span>Square Ft</span>
-                </li>
-
-              </ul>
-              
-            </div>
-        </li> 
-      </ul>
+         </ul>
 
     </div>
 
   </section>
-   <!-- <section class="property" id="listed"> 
-    <div class="container">
-      <div class="top flex jc-sb">
-        <div class="heading">
-          <h3>Featured properties</h3>
-          <p>Everything you need to know when you're looking.
-          </p>
-        </div>
-        
-        
-      </div>
-
-      <div class="list flex ai-c">
-        
-        {% for property in properties %}
-        {% if property.is_featured %}
-        <a href="#" class="card">
-          <div class="placeholder" style="background-image: url('{{ property.pictures.url }}');"></div>
-          
-          <div class="bottom">
-            <h4>{{ property.price }}</h4>
-            <p>{{ property.overview }}</p>
-            
-            <div class="features">
-              <span><i class="ri-home-5-line"></i>{{ property.bhk }} BHK</span>
-              <span><i class="ri-ruler-2-line"></i>{{ property.square_feet }} Sqft</span>
-            </div>
-          </div>
-        </a>
-        {% endif %}  
-        {% endfor %}
-      </div>
-    </div>
-  </section> --> 
-  <!-- properties list section markup ========== -->
-  
-  <!-- progress section markup ========== -->
-  
-  <!-- newsletter markup ========== -->
-  
-  <!-- website footer section ========== -->
-  
-  
-  
-  
-  
-  
-  <!-- Modal -->
-  <!-- <div id="registerModal" class="modal">
-    <div class="modal-content">
-      <a href="{% url 'authentication:register' %}">Register as Seller</a>
-      <a href="{% url 'authentication:client_register' %}">Register as Client</a>
-    </div>
-  </div> -->
-  
-  
-  
+   
   
   <script src="{% static '/js/script.js' %}"></script>
   {% endblock %}
