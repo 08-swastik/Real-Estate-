@@ -1,0 +1,70 @@
+{% extends 'property_form/layout.html' %}
+
+{% block body %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static '/css/my_listings.css' %}">
+
+
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+      <a href="{% url 'property_form:create_property'  %}" class="nav-link">Add Listings</a>
+    </div>
+
+    <div class="navbar-right">
+        {% if user.is_authenticated %}
+          
+          <div class="dropdown">
+            <button class="dropbtn">{{ user.username }}</button>
+            <div class="dropdown-content">
+              <a href="{% url 'authentication:logout' %}">Logout</a>
+            </div>
+          </div> 
+    </div>
+</nav> 
+
+        {% endif %}
+
+        <section class="property-section">
+
+        {% if properties %}
+        <h1 class="heading1">My Listings</h1>
+        <div class="property-container">
+        {% for property in properties %}
+
+        <div class="property-card">
+            <div class="property-image">
+            <img src="{{ property.pictures.url }}" alt="Property Photo">
+        </div>
+        <div class="property-details">
+            <div class="price">{{ property.price }}/Year</div>
+            <div class="address">{{ property.address }}</div>
+            <div class="overview">
+                <p>{{ property.overview }}</p>
+            </div>
+            <div class="bottom-line">
+                <div class="bedrooms">{{ property.bhk }} rooms</div>
+                <div class="bathrooms">2 Bathrooms</div>
+                <div class="square-feet">{{ property.square_feet }} sqft</div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'property_form:update_property' property.id %}" class="update-button">Update</a>
+            <a href="#" class="delete-button">Delete</a>
+          </div>
+       </div>
+    
+       {% endfor %}
+       
+    </div>
+    {% else %}
+    <h2 class="heading1">You have no listed Properties.</h2>
+    {% endif %}
+      </section>
+    
+      <script src="{% static '/js/script.js' %}"></script>
+
+{% endblock %}
+

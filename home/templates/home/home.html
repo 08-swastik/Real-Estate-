@@ -27,11 +27,13 @@
         
         {% if request.user.seller %}
         <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+        <a href="#">Contact</a>
+        <a href="{% url 'property_form:my_listings' %}">Your Listings</a>
         {% else %}
         <a href="#" onclick="showError()">Add Listing</a>
-        {% endif %}    
         <a href="#">Contact</a>
-        <a href="#">Services</a>
+        {% endif %}    
+        
       </nav>
     </div>
     
@@ -77,7 +79,6 @@
     <a href="#">Home</a>
     <a href="#">Add Listings</a>
     <a href="#">Contact</a>
-    <a href="#">Services</a>
   </nav>
   <!-- hero section markup ========== -->
   <section class="hero" id="hero">

@@ -267,6 +267,7 @@ body {
     padding: 16px;
     font-size: 16px;
     border: none;
+    border-radius: 5px;
   }
   
   .dropdown {
@@ -281,6 +282,7 @@ body {
     min-width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    border-radius: 10px;
   }
 
   #login-options {
@@ -295,7 +297,8 @@ body {
     display: block;
   }
   
-  .dropdown-content a:hover {background-color: #ddd;}
+  .dropdown-content a:hover {background-color: #ddd;
+  border-radius: 10px;}
   
   .dropdown:hover .dropdown-content {display: block;}
   

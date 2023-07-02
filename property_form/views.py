@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from authentication.models import Seller
-from django.contrib import messages
 from .models import Property
 
 def create_property(request):
@@ -31,19 +30,28 @@ def create_property(request):
                 pictures=pictures
             )
 
-            property_obj.save() #for saving the property_obj to the database.
+            property_obj.save() 
             
-            return redirect('home')  # Redirect to the home page after successful submission
+            return redirect('home')  
         
     
     
         context = {'seller': seller}
         return render(request, 'property_form/property_form.html', context)
 
-def property_detail(request, property_id):
-    property_instance = Property.objects.get(id=property_id)
-    return render(request, 'property_form/property_detail.html', {'property': property_instance})
+def my_listings(request) :
+    user = request.user
 
+    if hasattr(user,'seller'):
+          seller = user.seller
+          properties = Property.objects.filter(seller=seller)
+
+
+    context = {
+        'properties': properties
+    }
+    return render(request, 'property_form/my_listings.html', context)
+     
 
 def properties(request):
      
@@ -57,3 +65,28 @@ def properties(request):
      
     return render(request, 'property_form/properties.html' , context)
 # Create your views here.
+
+def update_property(request, property_id):
+     
+    property_obj = Property.objects.get(id=property_id)
+
+    if request.method == 'POST':
+        property_obj.address = request.POST.get('address')
+        property_obj.square_feet = request.POST.get('square_feet')
+        property_obj.overview = request.POST.get('overview')
+        property_obj.bhk = request.POST.get('bhk')
+        property_obj.nearby_hospitals = request.POST.get('nearby_hospitals')
+        property_obj.nearby_schools = request.POST.get('nearby_schools')
+        property_obj.nearby_police_station = request.POST.get('nearby_police_station')
+        property_obj.price = request.POST.get('price')
+        
+        pictures = request.FILES.get('pictures')
+        if pictures:
+            property_obj.pictures = pictures
+        
+        property_obj.save()  
+        
+        return redirect('property_form:my_listings')  
+    
+    context = {'property': property_obj}
+    return render(request, 'property_form/property_update.html', context)

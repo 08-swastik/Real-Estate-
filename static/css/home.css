@@ -56,7 +56,7 @@ a {
   text-decoration: none;
 }
 
-/* for making the image responsive  */
+
 img {
   display: inline-block;
   max-width: 100%;
@@ -64,7 +64,7 @@ img {
   vertical-align: baseline;
 }
 
-/* public styling ========== */
+
 .container {
   width: 1110px;
   max-width: 95%;
@@ -114,7 +114,7 @@ img {
   color: var(--clr-primary);
 }
 
-/* header style ========== */
+
 header {
   padding: 24px 0;
   background-color: #e6f0ff;
@@ -210,6 +210,7 @@ header .right .account {
   padding: 16px;
   font-size: 16px;
   border: none;
+  border-radius: 5px;
 }
 
 
@@ -226,6 +227,7 @@ header .right .account {
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  border-radius: 10px;
 }
 
 #login-options {
@@ -241,7 +243,8 @@ header .right .account {
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {background-color: #ddd;
+border-radius: 10px;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
@@ -274,7 +277,7 @@ header .right .account {
 .hamb.active span.bottom {
   transform: translateY(-9px) rotate(-42deg);
 }
-/* mobile navigation ========== */
+
 
 .nav-mobile {
   width: 100%;
@@ -305,7 +308,8 @@ header .right .account {
 .nav-mobile a:hover {
   color: var(--clr-light-blue);
 }
-/* hero section style ========== */
+
+
 .hero {
   width: 100%;
   height: 100vh;
@@ -341,7 +345,7 @@ p {
   font-size: 1.5rem;
   font-weight: 500;
 }
-/* SEARCH BAR CONTAINER */
+
 .search-local {
   position: relative;
 	width: 100%;
@@ -388,7 +392,6 @@ p {
 	}
 }
 
-/* INPUT */
 .search-local input {
 
 	height: 100%;
@@ -407,7 +410,6 @@ input[type="text"]::placeholder {
 	font-size: 2.4rem;
 }
 
-/* BUTTON */
 .search-local button {
 	background: var(--clr-primary);
 	border: none;
@@ -495,23 +497,21 @@ input[type="text"]::placeholder {
 .property-card {
   border: 1px solid var(--alice-blue);
    box-shadow: 0 16px 32px hsla(188, 63%, 7%, 0.1);
-   /* height: 500px; */
+
   
 }
 
 .property-card .card-banner {
-  /* height: 500px; */
   position: relative;
-  /* aspect-ratio: 2 / 2.5; */
+  /* aspect-ratio: 2 / 1.5; */
   overflow: hidden;
 }
 
 .property-card .card-banner img {
   height: 100%;
-  /* max-width: 400px; */
   object-fit: cover;
   transition: 0.5s ease;
-  display: block;
+  /* display: block; */
 }
 
 .property-card:hover .card-banner img 
@@ -521,7 +521,7 @@ input[type="text"]::placeholder {
   content: "";
   position: absolute;
   inset: 0;
-  /* background: linear-gradient(to top, hsla(0, 0%, 0%, 0.95), transparent 30%); */
+  background: linear-gradient(to top, hsla(0, 0%, 0%, 0.95), transparent 30%);
   pointer-events: none;
   z-index: 1;
 }
