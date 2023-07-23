@@ -5,7 +5,7 @@ from .forms import CustomUserCreationForm , SellerLoginForm,ClientCreationForm,C
 from .models import Seller,Client
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import get_user_model
+
 #seller registration
 def seller_register(request):
     if request.method == 'POST':
@@ -21,13 +21,10 @@ def seller_register(request):
 
             if user is not None:
 
-                login(request, user)  # Log in the user
+                login(request, user)  
                 
                 return redirect('home')
 
-            # Perform any additional actions or redirection
-            # messages.success(request, 'Registration successful. Please log in.')
-            # return redirect('authentication:login')
     else:
         form = CustomUserCreationForm()
 
@@ -77,13 +74,11 @@ def client_register(request):
             
             client.save()
 
-            # Perform any additional actions or redirection
 
             login(request, user)  # Log in the user
             
             return redirect('home')
-            # messages.success(request, 'Registration successful. Please log in.')
-            # return redirect('authentication:client_login')
+            
     else:
         form = ClientCreationForm()
 
@@ -121,12 +116,3 @@ def logout(request):
 
     auth_logout(request)
     return redirect('home')
-
-
-def signin(request):
-
-    return render(request,'authentication/signin.html')
-
-def  signup(request):
-
-    return render(request,'authentication/signup.html')

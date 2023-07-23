@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render,get_object_or_404, redirect
 from authentication.models import Seller
 from .models import Property
 
@@ -90,3 +90,17 @@ def update_property(request, property_id):
     
     context = {'property': property_obj}
     return render(request, 'property_form/property_update.html', context)
+
+
+def delete_property(request,property_id):
+     
+     property_obj = get_object_or_404(Property, id = property_id)
+
+     if request.method == "POST":
+          
+          property_obj.delete()
+          return redirect('property_form:my_listings')  
+     
+     context = {'property' : property_obj}
+
+     return render(request,'property_form/delete_property.html', context)

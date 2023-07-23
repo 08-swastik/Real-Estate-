@@ -1,11 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.validators import EmailValidator
 
 
 class CustomUserCreationForm(UserCreationForm):
     address = forms.CharField(max_length=100)
     phone_number = forms.CharField(max_length=20)
+    email = forms.EmailField(validators=[EmailValidator()])
 
     class Meta:
         model = User
@@ -24,6 +26,7 @@ class SellerLoginForm(AuthenticationForm):
 class ClientCreationForm(UserCreationForm):
     address = forms.CharField(max_length=100)
     phone_number = forms.CharField(max_length=20)
+    email = forms.EmailField(validators=[EmailValidator()])
 
     class Meta:
         model = User

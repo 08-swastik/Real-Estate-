@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
 <link rel="stylesheet" href="{% static '/css/property_description.css' %}">
 
+
 <nav class="navbar">
     <div class="navbar-left">
       <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
@@ -48,11 +49,38 @@
         </a>
       {% else %}
       <!-- User is not logged in -->
-      <a href="{% url 'authentication:signin' %}"><button class="btn account">Sign In</button></a>
-        <a href="{% url 'authentication:signup' %}"><button class="btn btn-fill">Register</button></a>
+      <button class="btn account" onclick="openModal()">Sign In</button>
+      <button class="btn btn-fill" onclick="openModal1()">Register</button>
       {% endif %}
     </div>
   </nav>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Sign In</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Seller Sign in </button></a>
+        <a href="{% url 'authentication:client_login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Client Sign in</button></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Register</h2>
+        <span class="close" onclick="closeModal1()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Seller Register</button></a>
+        <a href="{% url 'authentication:client_register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Client Register</button></a>
+      </div>
+    </div>
+  </div>
 
 <div class="property-description">
     <div class="property-image">
@@ -70,7 +98,43 @@
         </div>
 
         <div class="property-buttons">
+          <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
             <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+        </div>
+
+        <div id="negotiation-form" class="n-modal">
+          <div class="n-modal-content">
+              <div class="n-modal-header">
+                  <h2>Request Your Price Here!!!</h2>
+                  <span class="n-close" onclick="closeNegotiationForm()">&times;</span>
+              </div>
+              <div class="n-modal-divider"></div>
+              <h3 class="actual-price">Product price: </h3>
+              <form method="post" action="{% url 'negotiation:negotiation_form' %}">
+
+                {% csrf_token %}
+                  <div class="input-group">
+                      <i class="fas fa-envelope"></i>
+                      <input class="input" type="email" id="email" value="{{ seller_or_client.email }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-user"></i>
+                      <input class="input" type="text" id="name" value="{{ seller_or_client.first_name }} {{ seller_or_client.last_name }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-phone"></i>
+                      <input class="input" type="tel" id="phone" value="{{ seller_or_client.phone_number }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-money-bill-alt"></i>
+                      <input class="input" type="number" id="requested-price" placeholder="Requested Price:" required>
+                  </div>
+                  <button type="submit">Submit</button>
+              </form>
+          </div>
+      </div>
+      
+
         </div>
         
         <script>
@@ -114,28 +178,19 @@
                     <div class="columns-row">
                         <div class="column">
                             <h4 class="column-heading">Nearby Schools:</h4>
-                            <ul>
-                                <li>{{ nearby_schools }}</li>
-                            </ul>
+                            <ul id="schools-list"></ul>
                         </div>
                         <div class="column">
                             <h4 class="column-heading">Nearby Police Stations:</h4>
-                            <ul>
-                                <li>{{ nearby_PS }}</li>
-                            </ul>
+                            <ul id="police-stations-list"></ul>
                         </div>
                         <div class="column">
                             <h4 class="column-heading">Nearby Hospitals:</h4>
-                            <ul>
-                                <li>{{ nearby_hospital }}</li>
-                            </ul>
+                            <ul id="hospitals-list"></ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
-            
         </div>
         <div class="property-description-text">
             <h2>Overview</h2>

@@ -104,11 +104,11 @@ body {
       font-size: 1.3rem;
   }
   
-  input[type="text"]::placeholder {
+  /* input[type="text"]::placeholder {
       color: var(--black);
       font-size: 2.4rem;
   }
-  
+   */
   /* BUTTON */
   .search-local button {
       background: var(--clr-primary);
@@ -157,6 +157,9 @@ body {
   .property-title h3 {
     font-weight: lighter;
     font-size: 28px;
+    word-break: break-all;
+    margin-right: 300px;
+    
   }
   
   #search-results.show {
@@ -462,7 +465,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
+    
 }
+
 
 .property-price {
     color: #24b662;
@@ -470,6 +476,7 @@ body {
     font-weight: 600;
     margin-bottom: 20px;
     margin-right: 40px;
+    white-space: nowrap;
 }
 
 .property-buttons {
@@ -485,8 +492,8 @@ body {
     color: #fff;
     border: 2px solid var(--clr-primary);
     padding: 11px 28px;
-    margin-left: 10px;
-    margin-right: 28px;
+    /* margin-left: 5px; */
+    margin-right: 20px;
     cursor: pointer;
     font-size: 17px;
     font-weight: 500;
@@ -498,6 +505,28 @@ body {
     border: 2px solid var(--clr-primary);
     background-color: transparent;
     color: var(--clr-primary);
+}
+
+.negotiate-button {
+  font-family: "poppins", sans-serif;
+    background-color: var(--red);
+    color: #fff;
+    /* text-decoration: underline; */
+    border: 2px solid var(--red);
+    padding: 11px 28px;
+    margin-left: 10px;
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    transition-duration: 0.3s;
+    border-radius: 5px;
+}
+
+.negotiate-button:hover {
+  border: 2px solid var(--red);
+  background-color: transparent;
+  color: var(--red);
 }
 
 .property-features ul {
@@ -544,3 +573,204 @@ body {
     font-size: 18px;
     
 }
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 40px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  max-width: 500px;
+}
+
+.modal h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modal-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #4f93ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-button i {
+  margin-right: 15px;
+  color: #000;
+}
+
+.modal-button:hover {
+  background-color: #377de0;
+}
+
+.modal-button:first-child {
+  margin-right: 10px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+}
+
+.modal-title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mapboxgl-popup {
+  max-width: 300px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.popup {
+  padding: 10px;
+}
+
+.popup h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.n-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.n-close {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.n-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 450px;
+  max-width: 470px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.n-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.n-modal-header h2 {
+  margin: 0;
+}
+
+.n-modal-divider {
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 5px;
+}
+
+.actual-price {
+  margin-bottom: 15px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.input-group i {
+  margin-right: 10px;
+  color: #aaa;
+}
+
+.input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+button[type="submit"] {
+  background-color: #e74c3c;
+  color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  background-color: #c0392b;
+}
+
+
+
+
+

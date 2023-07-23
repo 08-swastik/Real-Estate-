@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'home',
     'property_form',
     'property_description_trade',
+    'negotiation'
     
 ]
 

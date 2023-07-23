@@ -57,11 +57,8 @@
         
         {% else %}
         
-        <a href="{% url 'authentication:signin' %}"><button class="btn account">Sign In</button></a>
-        <a href="{% url 'authentication:signup' %}"><button class="btn btn-fill">Register</button></a>
-        
-        
-        
+        <button class="btn account" onclick="openModal()">Sign In</button>
+        <button class="btn btn-fill" onclick="openModal1()" >Register</button>
         
         {% endif %}
         <div class="hamb">
@@ -74,13 +71,39 @@
     </div>
   </header>
   
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Sign In</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Seller Sign in </button></a>
+        <a href="{% url 'authentication:client_login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Client Sign in</button></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Register</h2>
+        <span class="close" onclick="closeModal1()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Seller Register</button></a>
+        <a href="{% url 'authentication:client_register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Client Register</button></a>
+      </div>
+    </div>
+  </div>
   
   <nav class="nav-mobile">
     <a href="#">Home</a>
     <a href="#">Add Listings</a>
     <a href="#">Contact</a>
   </nav>
-  <!-- hero section markup ========== -->
+  
   <section class="hero" id="hero">
     <div class="container">
       <div class="desc">
