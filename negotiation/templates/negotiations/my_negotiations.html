@@ -1,0 +1,330 @@
+{% extends "negotiations/layout.html" %}
+
+{% block body %}
+{% load static %}
+
+<style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #e6f0ff;
+    }
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css');
+
+    main {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+  
+    .card {
+      background: #fff;
+      border: 1px solid #dfddd0;
+      border-radius: 0.25rem;
+      max-width: 1500px;
+      padding: 1.5rem;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;      
+    }
+
+    
+
+    a {
+        text-decoration: none;
+        font-size: 20px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+  
+    th,
+    td {
+      border-bottom: 1px solid #cfe5e0;
+      padding: 1rem;
+      text-align: left;
+    }
+  
+    th {
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+  
+    td {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  
+    tr.selected td {
+      background: #f0f7f5;
+    }
+  
+    button {
+      background: #3f9783;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      
+      font-size: 0.875rem;
+      padding: 0.75rem 1rem;
+      width: 100px; 
+      text-align: center; 
+      transition: background 0.3s ease;
+    }
+  
+    button.accepted {
+      background: #3f9783; 
+    }
+  
+    button.rejected {
+      background: #f04141; 
+    }
+  
+    button.pending {
+      background: #999999; 
+    }
+  
+    .main-header {
+      margin: 0 0 2.5rem;
+    }
+  
+    .main-header.grid {
+      align-items: center;
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+  
+    .main-header.grid h1 {
+      color: #333b72;
+      font-family: var(--title-font-family);
+      font-size: 2.5rem;
+      font-weight: var(--title-font-weight);
+      margin: 0;
+    }
+  
+    span {
+      color: #3f9783;
+      font-family: var(--title-font-family);
+      font-size: 1.7rem;
+      font-weight: var(--title-font-weight);
+      margin: 0;
+    }
+
+
+.table-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.paging {
+  display: flex;
+  gap: 10px;
+  padding-top: 20px;
+  margin-right: 42px;
+}
+
+.button.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333b72 ;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.button.icon i {
+  font-size: 24px;
+  color:#fff;
+}
+
+   
+
+  </style>
+
+<style>
+ 
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .custom-dropdown-btn {
+    color: #333; 
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+  }
+  
+  
+  .customdropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9; 
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px;
+  }
+  
+  
+  .customdropdown-content li {
+    padding: 10px;
+  }
+  
+  .customdropdown-content li a {
+    color: #333; 
+    text-decoration: none;
+    display: block;
+  }
+  
+  
+  .custom-dropdown:hover .customdropdown-content {
+    display: block;
+  }
+  
+  
+  </style>
+  
+  
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" href="{% static '/css/mquery.css' %}">
+  
+  
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  
+  <header>
+    <div class="container flex ai-c jc-sb">
+      <div class="left flex ai-c">
+        <a href="{% url 'home' %}" class="logo"><img src="{%static 'images/logo.png' %}" alt="page logo" srcset=""></a>
+        
+        <nav class="nav-desktop">
+          <a href="{% url 'home' %}">Home</a>
+          <div class="custom-dropdown">
+            <a  class="custom-dropdown-btn">My Offers &#9662;</a>
+            <ul class="customdropdown-content">
+              <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+              <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+            </ul>
+          </div>
+          {% if request.user.seller %}
+          <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+          <a href="{% url 'property_form:my_listings'  %}">Your Listings</a>
+          {% else %}
+          <a href="#" onclick="showError()">Add Listing</a>
+          {% endif %}    
+          
+        </nav>
+      </div>
+      
+      <div class="right flex ai-c">
+        {% if user.is_authenticated %}
+          <!-- User is logged in -->
+          
+          <div class="dropdown">
+            <button class="dropbtn">{{ user.username }}</button>
+            <div class="dropdown-content">
+              <a href="{% url 'authentication:logout' %}">Logout</a>
+            </div>
+          </div> 
+          
+          <!-- <a href="#" class="favorites-link" title="Favorites">
+            <button class="favorites-button">
+              <i class="far fa-heart"></i>
+            </button> -->
+          </a>
+          
+          
+          {% else %}
+          
+          <button class="btn account" onclick="openModal()">Sign In</button>
+          <button class="btn btn-fill" onclick="openModal1()" >Register</button>
+          
+          {% endif %}
+          <div class="hamb">
+            <span class="top"></span>
+            <span class="mid"></span>
+            <span class="bottom"></span>
+          </div>
+          
+        </div>
+      </div>
+    </header>
+  
+  <main>
+    <div class="content">
+    <section class="main-header grid">
+        <h1>Negotiations</h1>
+
+        
+    </section>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th style="white-space: nowrap;">Serial No.</th>
+                    <th style="white-space: nowrap;">Property Address</th>
+                    <th style="white-space: nowrap;">Seller</th>
+                    <th style="white-space: nowrap;">Email</th>
+                    <th style="white-space: nowrap;">Phone</th>
+                    <th style="white-space: nowrap;">Actual Price</th>
+                    <th style="white-space: nowrap;">Negotiated Price</th>
+                    <th style="white-space: nowrap;">Status</th>
+                    
+                </tr>
+            </thead>
+            
+            
+            <tbody>
+                {% for negotiation in negotiations %}
+                <tr class="selected">
+                    <td style="white-space: nowrap;">{{ forloop.counter }}</td>
+                    <td style="white-space: nowrap;"><a href = "{% url 'property_description_trade:property_detail' negotiation.property.id %}">{{ negotiation.property }}</a></td>
+                    <td style="white-space: nowrap;">{{ negotiation.property.seller }}</td>
+                    
+                    <td style="white-space: nowrap;">{{ negotiation.property.seller.email }}</td>
+                    <td style="white-space: nowrap;">{{ negotiation.property.seller.phone_number }}</td>
+                    <td style="white-space: nowrap;">{{ negotiation.property.price }}</td>
+                    <td style="white-space: nowrap;">{{ negotiation.requested_price }}</td>
+                    <td style="white-space: nowrap;">{% if negotiation.status %}
+                        <button class="{{ negotiation.status }}">{{ negotiation.status }}</button>
+                        {% else %}
+                        <button class="status pending">Pending</button>
+                        {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    
+        
+                </tbody>
+            </table>
+        </div>
+        
+        <section class="table-footer grid">
+            <div class="paging grid">
+            <div class="button icon">
+                <i class="fa-solid fa-angle-left"></i>
+              </div>
+              <div class="button icon">
+                <i class="fa-solid fa-angle-right"></i>
+              </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+{% endblock %}

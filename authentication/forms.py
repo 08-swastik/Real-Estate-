@@ -5,13 +5,13 @@ from django.core.validators import EmailValidator
 
 
 class CustomUserCreationForm(UserCreationForm):
-    address = forms.CharField(max_length=100)
+    
     phone_number = forms.CharField(max_length=20)
     email = forms.EmailField(validators=[EmailValidator()])
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number','password1','password2']
+        fields = ['username', 'first_name', 'last_name', 'email',  'phone_number','password1','password2']
 
 class SellerLoginForm(AuthenticationForm):
     class Meta:
@@ -24,13 +24,13 @@ class SellerLoginForm(AuthenticationForm):
 
 
 class ClientCreationForm(UserCreationForm):
-    address = forms.CharField(max_length=100)
+    # address = forms.CharField(max_length=100)
     phone_number = forms.CharField(max_length=20)
     email = forms.EmailField(validators=[EmailValidator()])
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'address', 'phone_number','password1','password2']
+        fields = ['username', 'first_name', 'last_name', 'email','phone_number','password1','password2']
 
 class ClientLoginForm(AuthenticationForm):
     class Meta:

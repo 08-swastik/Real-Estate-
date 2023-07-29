@@ -2,6 +2,12 @@ from django.db import models
 from authentication.models import Seller
 
 class Property(models.Model):
+
+    STATUS_CHOICES = (
+        ('available', 'Available'),
+        ('sold', 'Sold'),
+        
+    )
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     is_featured = models.BooleanField(default=False)
     address = models.CharField(max_length=200)
@@ -12,9 +18,11 @@ class Property(models.Model):
     nearby_schools = models.CharField(max_length=100)
     nearby_police_station = models.CharField(max_length=100)
     price = models.CharField(max_length=20)
-    
-    #image will be uploaded to MEDIA_ROOT / property pictures
     pictures = models.ImageField(upload_to='property_images/')
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
+    
+    
 
     class Meta:
         verbose_name_plural = "properties"

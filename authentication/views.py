@@ -11,11 +11,11 @@ def seller_register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Create a new user
+           
             user = form.save()
 
-            # Create a corresponding seller entry
-            seller = Seller(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),address=form.cleaned_data.get('address'),registration_date = datetime.datetime.now(),phone_number = form.cleaned_data.get('phone_number') )
+            
+            seller = Seller(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),registration_date = datetime.datetime.now(),phone_number = form.cleaned_data.get('phone_number') )
             
             seller.save()
 
@@ -50,6 +50,8 @@ def seller_login(request):
                     messages.error(request, "Invalid login credentials.")
             else:
                 messages.error(request, "Invalid login credentials.")
+        else:
+            messages.error(request, "Invalid login credentials.")        
     else:
         form = SellerLoginForm()
 
@@ -103,7 +105,8 @@ def client_login(request):
                     messages.error(request, "Invalid login credentials.")
             else:
                 messages.error(request, "Invalid login credentials.")
-            
+        else:
+            messages.error(request, "Invalid login credentials.")    
                 
 
     else:

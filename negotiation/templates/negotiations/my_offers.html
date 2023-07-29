@@ -1,0 +1,279 @@
+{% extends "negotiations/layout.html" %}
+
+{% block body %}
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+        background-color: #e6f0ff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+
+
+.info {
+  padding: 0 10px 10px 30px;
+}
+
+
+
+.offer-card img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0 ;
+
+}
+
+ h3 {
+  font-size: 18px;
+  margin: 5px 0 10px 0;
+}
+
+
+
+
+.card-container {
+  background-color: #b5cbca;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  max-width: 1300px;
+  justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 120px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 15px;
+}
+.offer-card {
+  background-color: #edf3f3;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.status {
+  
+  color: #ffffff;
+  font-weight: bold;
+}
+
+
+.payment-link {
+  margin: 4px 0 10px 0;
+  text-align: center;
+}
+
+
+
+.payment-link a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333b72;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.payment-link a:hover {
+  background-color: #333b72;
+}
+
+.offer-card {
+  position: relative;
+}
+
+p {
+  /* margin-top: px; */
+  margin-bottom: -4px;
+}
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #333b72;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.status {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+
+
+
+
+    
+    .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .custom-dropdown-btn {
+    color: #333; 
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+  }
+  
+  
+  .customdropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9; 
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px;
+  }
+  
+  
+  .customdropdown-content li {
+    padding: 10px;
+  }
+  
+  .customdropdown-content li a {
+    color: #333; 
+    text-decoration: none;
+    display: block;
+  }
+  
+  
+  .custom-dropdown:hover .customdropdown-content {
+    display: block;
+  }
+</style>
+{% load static %}
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" href="{% static '/css/mquery.css' %}">
+  
+  
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  
+  <header>
+    <div class="container flex ai-c jc-sb">
+      <div class="left flex ai-c">
+        <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="page logo" srcset=""></a>
+        
+        <nav class="nav-desktop">
+          <a href="{% url 'home' %}">Home</a>
+          <div class="custom-dropdown">
+            <a  class="custom-dropdown-btn">My Offers &#9662;</a>
+            <ul class="customdropdown-content">
+              <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+              <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+            </ul>
+          </div>
+          {% if request.user.seller %}
+          <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+          <a href="{% url 'property_form:my_listings'  %}">Your Listings</a>
+          {% else %}
+          <a href="#" onclick="showError()">Add Listing</a>
+          {% endif %}    
+          
+        </nav>
+      </div>
+      
+      <div class="right flex ai-c">
+        {% if user.is_authenticated %}
+          <!-- User is logged in -->
+          
+          <div class="dropdown">
+            <button class="dropbtn">{{ user.username }}</button>
+            <div class="dropdown-content">
+              <a href="{% url 'authentication:logout' %}">Logout</a>
+            </div>
+          </div> 
+          
+          </a>
+          
+          
+          {% else %}
+          
+          <button class="btn account" onclick="openModal()">Sign In</button>
+          <button class="btn btn-fill" onclick="openModal1()" >Register</button>
+          
+          {% endif %}
+          <div class="hamb">
+            <span class="top"></span>
+            <span class="mid"></span>
+            <span class="bottom"></span>
+          </div>
+
+          
+          
+        </div>
+      </div>
+    </header>
+
+
+    <div class="card-container">
+        <div class="grid">
+            {% for negotiation in accepted_negotiations %}
+            
+            <div class="offer-card" id = "offerCard" style="cursor: pointer;" data-property-url="{% url 'property_description_trade:property_detail' negotiation.property.id %}">
+              
+              
+              
+              <img src="{{ negotiation.property.pictures.url }}" alt="Property Image">
+              <div class="badge">
+                  <span class="status">{{ negotiation.status }}</span>
+              </div>
+                        <div class="info">
+                          <div class="address" style="display: flex; align-items: center; justify-content: center; gap: 5px;" >
+                            <i  class="fas fa-map-marker-alt" style="font-size: 22px;"></i>
+                        
+                            <h3>{{ negotiation.property.address }}</h3>
+                            </div>
+                            <p>Price: ${{ negotiation.requested_price }}</p>
+                            <p>BHK: {{ negotiation.property.bhk }}</p>
+                        </div>
+                
+                    <p class="payment-link">
+                        <a href="{% url 'property_description_trade:payment' negotiation.property.id %}">Buy Now</a>
+                    </p>
+    
+                
+            </div>
+    
+            {% endfor %} 
+        </div>
+    </div>
+    
+   
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" crossorigin="anonymous"></script>
+
+    <script>
+     
+      const offerCard = document.getElementById('offerCard');
+    
+      
+      offerCard.addEventListener('click', function() {
+        
+        const propertyUrl = offerCard.getAttribute('data-property-url');
+    
+        
+        window.location.href = propertyUrl;
+      });
+    </script>
+    
+
+    {% endblock %}
+

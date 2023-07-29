@@ -8,7 +8,6 @@ class Seller(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
-    address = models.CharField(max_length=100)
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -22,7 +21,6 @@ class Client(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
-    address = models.CharField(max_length=100)
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

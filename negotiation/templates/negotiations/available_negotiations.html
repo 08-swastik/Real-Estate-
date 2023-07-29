@@ -1,0 +1,209 @@
+{% extends "negotiations/layout.html" %}
+
+{% block body %}
+{% load static %}
+
+<style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f5f4f0;
+    }
+  
+    main {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+  
+    .card {
+      background: #fff;
+      border: 1px solid #dfddd0;
+      border-radius: 0.25rem;
+      max-width: 1100px;
+      padding: 1.5rem;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    th,
+    td {
+      border-bottom: 1px solid #cfe5e0;
+      padding: 1rem;
+      text-align: left;
+    }
+  
+    th {
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+  
+    td {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  
+    tr.selected td {
+      background: #f0f7f5;
+    }
+  
+    .main-header {
+      margin: 0 0 2.5rem;
+    }
+  
+    .main-header.grid {
+      align-items: center;
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+  
+    h1 {
+      color: #3f9783;
+      font-family: var(--title-font-family);
+      font-size: 2.5rem;
+      font-weight: var(--title-font-weight);
+      margin: 0;
+    }
+  
+    span {
+      color: #3f9783;
+      font-family: var(--title-font-family);
+      font-size: 1.7rem;
+      font-weight: var(--title-font-weight);
+      margin: 0;
+    }
+
+    .submit-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  .submit {
+    background-color: #3f9783;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.8rem 1.2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    
+  }
+
+  .submit:hover {
+    background-color: #327969;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .submit:active {
+    transform: translate(0, 0);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  
+.action-select {
+  padding: 8px;
+  border: none;
+  background-color: #999999;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.action-select option {
+  background-color: #fff; 
+  color: #000; 
+}    
+
+.initialaction-select {
+  padding: 8px;
+  border: none;
+  /* background-color: #999999; */
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.initialaction-select option {
+  background-color: #fff; 
+  color: #000; 
+}    
+
+
+
+  </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<main>
+  <div class="content">
+    <section class="main-header grid">
+      <h1>Negotiators</h1>
+
+      {% if original_price %}
+        <span>Original Price: {{ original_price }}</span>
+      {% endif %}
+    </section>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Serial No.</th>
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Negotiated Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for negotiation in negotiations %}
+            <tr class="selected">
+              <td>{{ forloop.counter }}</td>
+              <td>{{ negotiation.first_name }}</td>
+              <td>{{ negotiation.last_name }}</td>
+              <td>{{ negotiation.email }}</td>
+              <td>{{ negotiation.phone_number }}</td>
+              <td>{{ negotiation.requested_price }}</td>
+              <td>
+                <select name="{{ negotiation.id }}" class="{% if negotiation.status %}initialaction-select{% else %}action-select{% endif %}">
+                  {% if negotiation.status %}
+                    <option value="pending" {% if negotiation.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="rejected" {% if negotiation.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                    <option value="accepted" {% if negotiation.status == 'accepted' %}selected{% endif %}>Accepted</option>
+                  {% else %}
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="accepted">Accepted</option>
+                  {% endif %}
+                </select>
+                
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="submit-container">
+        <button class="submit" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</main>
+<script src="{% static '/js/available_negotiations.js' %}"></script>
+{% endblock %}

@@ -41,14 +41,18 @@ def create_property(request):
 
 def my_listings(request) :
     user = request.user
-
+    
+    
     if hasattr(user,'seller'):
           seller = user.seller
           properties = Property.objects.filter(seller=seller)
+          
 
 
     context = {
-        'properties': properties
+        'properties': properties,
+        
+        
     }
     return render(request, 'property_form/my_listings.html', context)
      

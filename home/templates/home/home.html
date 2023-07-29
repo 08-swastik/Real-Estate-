@@ -2,21 +2,61 @@
 {% block body %}
 {% load static %}
 
+<style>
+ 
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
 
-<!-- adding custom js  -->
+.custom-dropdown-btn {
+  color: #333; 
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+
+.customdropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9; 
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+
+.customdropdown-content li {
+  padding: 10px;
+}
+
+.customdropdown-content li a {
+  color: #333; 
+  text-decoration: none;
+  display: block;
+}
+
+
+.custom-dropdown:hover .customdropdown-content {
+  display: block;
+}
+
+
+</style>
+
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
 <link rel="stylesheet" href="{% static '/css/home.css' %}">
 <link rel="stylesheet" href="{% static '/css/mquery.css' %}">
-<!-- <link rel="shortcut icon" href="favicon.png" type="image/x-icon"> -->
 
-<!-- adding remixicon -->
+
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
 
-<!-- header section -->
 <header>
   <div class="container flex ai-c jc-sb">
     <div class="left flex ai-c">
@@ -24,14 +64,18 @@
       
       <nav class="nav-desktop">
         <a href="#">Home</a>
-        
+        <div class="custom-dropdown">
+          <a  class="custom-dropdown-btn">My Offers &#9662;</a>
+          <ul class="customdropdown-content">
+            <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+            <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+          </ul>
+        </div>
         {% if request.user.seller %}
         <a href="{% url 'property_form:create_property' %}">Add Listings</a>
-        <a href="#">Contact</a>
-        <a href="{% url 'property_form:my_listings' %}">Your Listings</a>
+        <a href="{% url 'property_form:my_listings'  %}">Your Listings</a>
         {% else %}
         <a href="#" onclick="showError()">Add Listing</a>
-        <a href="#">Contact</a>
         {% endif %}    
         
       </nav>
@@ -141,10 +185,10 @@
         {% for property in properties %}
         {% if property.is_featured %}
         <li>
-          <div class="property-card">
+          <div class="property-card" style="cursor: pointer;" data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)">
 
             <figure class="card-banner">
-              <a href="{% url 'property_description_trade:property_detail' property.id %}">
+              <a data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)">
                 <img src="{{ property.pictures.url }}" alt="New Apartment Nice View" class="w-100">
                 <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
               </a>
@@ -157,7 +201,7 @@
               </div>
 
               <h3 class="h3 card-title">
-                <a href="{% url 'property_description_trade:property_detail' property.id %}">{{ property.address }}</a>
+                <a data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)" >{{ property.address }}</a>
               </h3>
 
               <p class="card-text">
@@ -201,7 +245,51 @@
     </div>
 
   </section>
-   
+
+  <div id="errorModal" class="modal" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please authenticate to proceed further.</h2>
+        <span class="close" onclick="closeErrorModal()">&times;</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to open the error modal
+    function openErrorModal() {
+      document.getElementById("errorModal").style.display = "flex";
+      document.body.classList.add('modal-open');
+    }
   
+    // Function to close the error modal
+    function closeErrorModal() {
+
+      document.body.classList.remove('modal-open');
+      document.getElementById("errorModal").style.display = "none";
+    }
+  
+    function handlePropertyCardClick(cardElement) {
+  if (!isAuthenticated) {
+    openErrorModal();
+  } else {
+    const propertyUrl = cardElement.dataset.propertyUrl;
+    window.location.href = propertyUrl;
+  }
+}
+
+  </script>
+
+{% if request.user.is_authenticated %}
+<script>
+  var isAuthenticated = true;
+</script>
+{% else %}
+<script>
+  var isAuthenticated = false;
+</script>
+{% endif %}
+  
+   
   <script src="{% static '/js/script.js' %}"></script>
   {% endblock %}

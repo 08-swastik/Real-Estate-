@@ -1,14 +1,14 @@
 
-// document.addEventListener("DOMContentLoaded", function() {
-//     searchInput.value = '';
-//     searchResults.innerHTML = '';
-//     const hamb = document.querySelector(".hamb");
-//     const nav = document.querySelector(".nav-mobile");
-//     hamb.addEventListener("click", function() {
-//       hamb.classList.toggle("active");
-//       nav.classList.toggle("active");
-//     });
-//   });
+document.addEventListener("DOMContentLoaded", function() {
+    searchInput.value = '';
+    searchResults.innerHTML = '';
+    const hamb = document.querySelector(".hamb");
+    const nav = document.querySelector(".nav-mobile");
+    hamb.addEventListener("click", function() {
+      hamb.classList.toggle("active");
+      nav.classList.toggle("active");
+    });
+  });
 
   function showError() {
     alert("Please log in or register as a seller first.");
@@ -104,16 +104,19 @@ var modal = document.getElementById('myModal');
 var modal1 = document.getElementById('myModal1');
 
 function openModal() {
+  document.body.classList.add('modal-open');
   modal.style.display = 'flex';
   modal.addEventListener('focusout', handleFocusOut);
 }
 
 function openModal1() {
+  document.body.classList.add('modal-open');
   modal1.style.display = 'flex';
   modal1.addEventListener('focusout', handleFocusOut1);
 }
 
 function closeModal() {
+  document.body.classList.remove('modal-open');
   modal.style.display = 'none';
   modal.removeEventListener('focusout', handleFocusOut);
 }
@@ -125,6 +128,7 @@ function handleFocusOut(event) {
 }
 
 function closeModal1() {
+  document.body.classList.remove('modal-open');
   modal1.style.display = 'none';
   modal1.removeEventListener('focusout', handleFocusOut1);
 }

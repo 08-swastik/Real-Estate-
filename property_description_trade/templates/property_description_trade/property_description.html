@@ -1,5 +1,7 @@
 {% extends "property_description_trade/layout.html" %}
 {% block body %}
+
+
 {% load static %}
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -25,8 +27,7 @@
         <input id = "search-input" type="text" placeholder=" Search for City...">
         <button id="search-button" data-url="{% url 'property_form:properties' %}">
           <span class="search-text">Search</span>            
-        </button>
-      
+        </button>      
       </div>
 
       <div id="search-results"></div>
@@ -91,16 +92,33 @@
         <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
     </div>
     <div class="property-details">
+      {% if special_price %}
         <div class="property-title">
             <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
-            <span class="property-price"><span>₹</span>{{ property_price }}</span>
+        <span class="property-price">
+            <span>Offer price: </span>
+            <span style="text-decoration: line-through;">₹{{ property_price }}</span>
+            <span> ₹{{ special_price }}</span>
+        </span>
+    {% else %}
+    <div class="property-title1">
+      <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+        <span class="property-price">₹{{ property_price }}</span>
+    {% endif %}
             
         </div>
 
         <div class="property-buttons">
-          <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
-            <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
-        </div>
+          {% if not is_sold %}
+              {% if not seller_or_client or seller_or_client.id != property_obj.seller.id %}
+                  <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
+                  <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+              {% endif %}
+          {% else %}
+              <span class="sold-label">Sold</span>
+          {% endif %}
+      </div>
+      
 
         <div id="negotiation-form" class="n-modal">
           <div class="n-modal-content">
@@ -110,24 +128,25 @@
               </div>
               <div class="n-modal-divider"></div>
               <h3 class="actual-price">Product price: </h3>
-              <form method="post" action="{% url 'negotiation:negotiation_form' %}">
+              <form method="POST" action="{% url 'negotiation:negotiation_form' property_id=property_id %}" >
+                
 
                 {% csrf_token %}
                   <div class="input-group">
                       <i class="fas fa-envelope"></i>
-                      <input class="input" type="email" id="email" value="{{ seller_or_client.email }}" required>
+                      <input class="input" type="email" id="email" name="email" value="{{ seller_or_client.email }}" required>
                   </div>
                   <div class="input-group">
                       <i class="fas fa-user"></i>
-                      <input class="input" type="text" id="name" value="{{ seller_or_client.first_name }} {{ seller_or_client.last_name }}" required>
+                      <input class="input" type="text" id="name" name="name" value="{{ seller_or_client.first_name }} {{ seller_or_client.last_name }}" required>
                   </div>
                   <div class="input-group">
                       <i class="fas fa-phone"></i>
-                      <input class="input" type="tel" id="phone" value="{{ seller_or_client.phone_number }}" required>
+                      <input class="input" type="tel" id="phone"  name = "phone" value="{{ seller_or_client.phone_number }}" required>
                   </div>
                   <div class="input-group">
                       <i class="fas fa-money-bill-alt"></i>
-                      <input class="input" type="number" id="requested-price" placeholder="Requested Price:" required>
+                      <input class="input" type="text" id="requested-price" name="requested_price" placeholder="Requested Price:" required>
                   </div>
                   <button type="submit">Submit</button>
               </form>
@@ -159,12 +178,14 @@
         
         
         <div class="property-features">
-            <ul>
-                <li><i class="fas fa-bed"></i> <strong> {{ bhk  }}</strong> Beds</li>
+          <div class="new-features">
+          <ul>
+            <li><i class="fas fa-bed"></i> <strong> {{ bhk  }}</strong> Beds</li>
                 <li><i class="fas fa-bath"></i> <strong> 3</strong> Baths</li>
                 <li><i class="fas fa-expand"></i> <strong> {{ property_sqft }}</strong> sqft</li>
             </ul>
-            
+            <a href="{% url 'negotiation:recent_negotiations' property_id=property_id %}" class="recent-negotiations">Recent Negotiations</a>
+            </div>
             <div class="map-additional">
                 <button id="map-button" class="property-button map-button active" onclick="showMap()">Map</button>
                 <button id="additional-info-button" class="property-button additional-info-button" onclick="toggleAdditionalInfo()">Additional Information</button>
@@ -210,6 +231,8 @@
         
     </div>
 </div>
+
+
 
 
 <script src="{% static '/js/script.js' %}"></script>

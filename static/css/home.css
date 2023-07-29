@@ -151,13 +151,14 @@ header .left .nav-desktop a {
   font-weight: 500;
   color: #4f5361;
   position: relative;
+  padding-top: 5px;
 }
 
 header .left .nav-desktop a::after {
   content: "";
   width: 0%;
   height: 2px;
-  background-color: var(--clr-light-blue);
+  /* background-color: var(--clr-light-blue); */
   position: absolute;
   bottom: -3px;
   left: 0;
@@ -495,9 +496,7 @@ input[type="text"]::placeholder {
 }
 
 .property-card {
-  border: 1px solid var(--alice-blue);
-   /* box-shadow: 0 16px 32px hsla(188, 63%, 7%, 0.1); */
-
+  border: 1px solid var(--alice-blue); 
   
 }
 
@@ -505,13 +504,16 @@ input[type="text"]::placeholder {
   position: relative;
   /* aspect-ratio: 2 / 1.5; */
   overflow: hidden;
+  width: 600px;
+  height: 336px;
 }
 
 .property-card .card-banner img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
   transition: 0.5s ease;
-  /* display: block; */
+  display: block;
 }
 
 .property-card:hover .card-banner img 
@@ -638,7 +640,7 @@ input[type="text"]::placeholder {
 
 li { list-style: none; }
 
-.w-100 { width: 100%; 
+.w-100 { width: 100%;
 }
 
 .property .container1 {
@@ -676,6 +678,8 @@ li { list-style: none; }
   justify-content: center;
 }
 
+
+
 .modal-content {
   background-color: #fefefe;
   padding: 40px;
@@ -709,6 +713,11 @@ li { list-style: none; }
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  pointer-events: none;
+}
+
+.modal-open {
+  overflow: hidden;
 }
 
 .modal-button i {
