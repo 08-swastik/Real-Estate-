@@ -99,6 +99,6 @@ def my_offers(request):
 
 
 def my_negotiations(request):
-    negotiations = Negotiation.objects.filter(user=request.user, status = 'accepted', property__status='available')
+    negotiations = Negotiation.objects.filter(user=request.user,  property__status='available')
     return render(request,'negotiations/my_negotiations.html',{'negotiations': negotiations})
 
