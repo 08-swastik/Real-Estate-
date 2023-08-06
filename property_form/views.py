@@ -11,9 +11,6 @@ def create_property(request):
             square_feet = request.POST.get('square_feet')
             overview = request.POST.get('overview')
             bhk = request.POST.get('bhk')
-            nearby_hospitals = request.POST.get('nearby_hospitals')
-            nearby_schools = request.POST.get('nearby_schools')
-            nearby_police_station = request.POST.get('nearby_police_station')
             price = request.POST.get('price')
             pictures = request.FILES.get('pictures')
             
@@ -23,9 +20,6 @@ def create_property(request):
                 square_feet=square_feet,
                 overview=overview,
                 bhk=bhk,
-                nearby_hospitals=nearby_hospitals,
-                nearby_schools=nearby_schools,
-                nearby_police_station=nearby_police_station,
                 price=price,
                 pictures=pictures
             )
@@ -79,9 +73,6 @@ def update_property(request, property_id):
         property_obj.square_feet = request.POST.get('square_feet')
         property_obj.overview = request.POST.get('overview')
         property_obj.bhk = request.POST.get('bhk')
-        property_obj.nearby_hospitals = request.POST.get('nearby_hospitals')
-        property_obj.nearby_schools = request.POST.get('nearby_schools')
-        property_obj.nearby_police_station = request.POST.get('nearby_police_station')
         property_obj.price = request.POST.get('price')
         
         pictures = request.FILES.get('pictures')

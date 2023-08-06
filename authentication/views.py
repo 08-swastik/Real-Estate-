@@ -15,7 +15,7 @@ def seller_register(request):
             user = form.save()
 
             
-            seller = Seller(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),registration_date = datetime.datetime.now(),phone_number = form.cleaned_data.get('phone_number') )
+            seller = Seller(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),phone_number = form.cleaned_data.get('phone_number') )
             
             seller.save()
 
@@ -72,7 +72,7 @@ def client_register(request):
             user = form.save()
 
             # Create a corresponding seller entry
-            client = Client(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),address=form.cleaned_data.get('address'),registration_date = datetime.datetime.now(),phone_number = form.cleaned_data.get('phone_number') )
+            client = Client(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),phone_number = form.cleaned_data.get('phone_number') )
             
             client.save()
 

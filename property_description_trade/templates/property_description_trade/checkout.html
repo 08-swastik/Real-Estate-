@@ -1,0 +1,170 @@
+{% extends 'property_description_trade/layout.html' %}
+{% load static %}
+{% block body %}
+
+<div id="paypal-button-container">
+        {% csrf_token %}
+        {{ form.render }}
+    </div>
+
+
+    {% endblock %}
+    <!--  
+    <div class="container">
+        
+        <div class="header">
+          <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+      
+        <div class="row">
+         
+            <div class="property-image">
+              <img src="{{ property_image }}" alt="Property Image">
+            </div>
+         
+      
+          
+            <div class="product-details">
+               
+                <p>{{ property_address }}</p>
+                <p>Rs.{{ property_price }}</p>
+            
+           
+            <div id="paypal-button-container"></div>
+          
+        </div>
+      </div>
+      
+      <style>
+    
+        body{
+            background-color: aliceblue;
+        }
+    
+        .row {
+            margin-top: 50px;
+            display: flex;
+            gap: 50px;
+        }
+        
+        .header {
+          position: relative;
+          text-align: center;
+          width: 20%;
+          padding: 14px;
+          left: 20%;
+          
+        }
+      
+    
+        p {
+            margin-bottom: 0px;
+        }
+       
+        .header img {
+          max-width: 100px;
+        }
+      
+        
+        .property-image img {
+          height: 600px;
+          width: 700px;
+          object-fit: cover;
+          border-radius: 5px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+          margin: 0px 0 0 390px;
+        }
+      
+       
+        .product-details {
+           
+          font-size: 1.5rem;
+          font-weight: 600;
+          display: flex;
+          flex-direction: column; 
+          margin-bottom: 10px;
+        }
+      
+        
+        #paypal-button-container {
+          text-align: center;
+          margin-top: 20px;
+        }
+      
+    
+      
+        
+      </style>
+    
+    
+    <script src="https://www.paypal.com/sdk/js?client-id=Adsu22us2ZS3z0THhTz7_x1baRisZvB8N_PonYMRqWK82siha2PltCh05gIBBdOSwedmNad5VuM-lW68"></script>
+    
+    
+     
+      <script>
+        const FUNDING_SOURCES = [
+         
+            paypal.FUNDING.PAYPAL,
+            paypal.FUNDING.CARD
+        ];
+        FUNDING_SOURCES.forEach(fundingSource => {
+          paypal.Buttons({
+            fundingSource,
+    
+            style: {
+              layout: 'vertical',
+              shape: 'pill',
+              
+            },
+    
+            createOrder: async (data, actions) => {
+              try {
+                const response = await fetch("http://localhost:9597/orders", {
+                  method: "POST"
+                });
+    
+                const details = await response.json();
+                return details.id;
+              } catch (error) {
+                console.error(error);
+               
+              }
+            },
+    
+            
+    
+            onApprove: async (data, actions) => {
+              try {
+                const response = await fetch(`http://localhost:9597/orders/${data.orderID}/capture`, {
+                  method: "POST"
+                });
+    
+                const details = await response.json();
+                
+                const errorDetail = Array.isArray(details.details) && details.details[0];
+    
+                if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                  return actions.restart();
+                 
+                }
+    
+                if (errorDetail) {
+                  let msg = 'Sorry, your transaction could not be processed.';
+                  msg += errorDetail.description ? ' ' + errorDetail.description : '';
+                  msg += details.debug_id ? ' (' + details.debug_id + ')' : '';
+                  alert(msg);
+                }
+    
+                
+                console.log('Capture result', details, JSON.stringify(details, null, 2));
+                const transaction = details.purchase_units[0].payments.captures[0];
+                alert('Transaction ' + transaction.status + ': ' + transaction.id + 'See console for all available details');
+              } catch (error) {
+                console.error(error);
+                
+              }
+            },
+          }).render("#paypal-button-container");
+        })
+    
+      </script>  -->

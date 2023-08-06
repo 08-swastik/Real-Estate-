@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.location = "/"; // Redirect to the home page
   }
   
-  const searchInput = document.getElementById('search-input');
+  const searchInput = document.getElementById('address-input');
   const searchButton = document.getElementById('search-button');
   const searchResults = document.getElementById('search-results');
   
@@ -40,10 +40,12 @@ document.addEventListener("DOMContentLoaded", function() {
           const address = result.address;
           const formattedAddress = address.toLocaleUpperCase('en-US'); 
           if (!uniqueAddresses.includes(formattedAddress)) {
+
             uniqueAddresses.push(formattedAddress);
   
             const resultItem = document.createElement('div');
             resultItem.textContent = formattedAddress;
+            console.log(resultItem)
             resultItem.classList.add('result-item'); 
             
             resultItem.addEventListener('click', () => {
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const query = searchInput.value;
     updateSearchResults(query);
   });
-  
+
 
 function performSearch() {
   const city = searchInput.value.trim();

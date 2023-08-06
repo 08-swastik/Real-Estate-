@@ -43,6 +43,81 @@
   display: block;
 }
 
+.big-container {
+  position: relative;
+  font-size: 1.5rem;
+  max-width: 550px; 
+  margin: 0 auto; 
+  padding: 10px; 
+  margin-top: 10px;
+  margin-left: -16px;
+}
+
+.search-local {
+  display: flex;
+  align-items: center;
+  background-color: #ecf3fd; 
+  border-radius: 25px; 
+  padding: 8px 12px; 
+  border: 2px solid #0f1b4c;
+}
+
+
+.search-field {
+  display: flex;
+  align-items: center;
+}
+
+
+#city-input {
+  border-right: 1px solid #ccc;
+  flex: 1; 
+  width: 30%;  
+  padding-right: 10px; 
+}
+
+#address-input {
+  flex: 1; 
+  width: 70%; 
+}
+
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: #333; 
+  padding: 4px 8px; 
+}
+
+input::placeholder {
+  font-size: 1.2rem;
+}
+
+.icon {
+  padding-left: 5px;
+  
+}
+
+#search-button {
+  background-color: #0f1b4c; 
+  color: #fff; 
+  border: none;
+  padding: 10px 10px;
+  border-radius: 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+  font-size: 1.5rem;
+  border: 2px solid #0f1b4c;
+}
+
+#search-button:hover {
+  background-color: #e6f0ff; 
+  color: black;
+}
+
+
 
 </style>
 
@@ -154,7 +229,7 @@
         <h3 class="tag">Welcome to RealtyHive</h3>
         <h2 class="title">Discover a place you'll love to live</h2>
         <p class="text">Get the best property deals first,before they reach the mass market! hot foreclosure deals with simple search</p>
-        <div class="search-local">
+        <!-- <div class="search-local">
           <div class="icon">
             <ion-icon name="location-outline"></ion-icon>
           </div>
@@ -166,11 +241,36 @@
         
         </div>
 
-        <div id="search-results"></div>
+        <div id="search-results"></div> -->
 
 
+        <div class="big-container">
+          <div class="search-local">
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <input id="city-input" type="text" value="" autocomplete="off" placeholder="Enter City...">
+            </div>
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <input id="address-input" type="text" value="" autocomplete="off" placeholder="Enter Address...">
+            </div>
+            <button id="search-button" data-url="{% url 'property_form:properties' %}">
+              <span class="search-text">Search</span>
+            </button>
+          </div>
+        </div>
+          <div id="search-results"></div>
+        
       </div>
+
+
     </div>
+
+    
   </section>
   
 

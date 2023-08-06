@@ -6,6 +6,9 @@ from .models import Negotiation
 from property_form.models import Property
 
 
+
+
+
 def negotiation_form(request,property_id):
 
 
@@ -94,11 +97,11 @@ def available_negotiations(request, property_id):
 
 
 def my_offers(request):
-    accepted_negotiations = Negotiation.objects.filter(user=request.user, status = 'accepted', property__status='available')
+    accepted_negotiations = Negotiation.objects.filter(user=request.user, status = 'accepted',)
     return render(request,'negotiations/my_offers.html',{'accepted_negotiations': accepted_negotiations})   
 
 
 def my_negotiations(request):
-    negotiations = Negotiation.objects.filter(user=request.user,  property__status='available')
+    negotiations = Negotiation.objects.filter(user=request.user,  )
     return render(request,'negotiations/my_negotiations.html',{'negotiations': negotiations})
 

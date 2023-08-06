@@ -291,7 +291,7 @@
                 {% for negotiation in negotiations %}
                 <tr class="selected">
                     <td style="white-space: nowrap;">{{ forloop.counter }}</td>
-                    <td style="white-space: nowrap;"><a href = "{% url 'property_description_trade:property_detail' negotiation.property.id %}">{{ negotiation.property }}</a></td>
+                    <td><a href = "{% url 'property_description_trade:property_detail' negotiation.property.id %}">{{ negotiation.property }}</a></td>
                     <td style="white-space: nowrap;">{{ negotiation.property.seller }}</td>
                     
                     <td style="white-space: nowrap;">{{ negotiation.property.seller.email }}</td>

@@ -112,7 +112,10 @@
           {% if not is_sold %}
               {% if not seller_or_client or seller_or_client.id != property_obj.seller.id %}
                   <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
+                  <form method="POST">
+                    {% csrf_token %}
                   <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+                  </form>
               {% endif %}
           {% else %}
               <span class="sold-label">Sold</span>
@@ -159,17 +162,15 @@
         <script>
             function handleBuyNow() {
                 var isAuthenticated = "{{ request.user.is_authenticated }}";
-                if (isAuthenticated === "True") {
-                    redirectToPayment();
-                } else {
-                    showSignInAlert();
-                }
+                if (isAuthenticated === "False") {
+                  showSignInAlert();
+                } 
             }
 
-            function redirectToPayment() {
-                window.location.href = 'payment'
+            // function redirectToPayment() {
+            //     window.location.href = 'property_detail'
         
-            }
+            // }
 
             function showSignInAlert() {
         alert("Please sign in first!");

@@ -29,6 +29,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +45,8 @@ INSTALLED_APPS = [
     'home',
     'property_form',
     'property_description_trade',
-    'negotiation'
+    'negotiation',
+    'paypal.standard.ipn',
     
 ]
 
@@ -54,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'real_estate.urls'
@@ -76,6 +81,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'real_estate.wsgi.application'
 
+# PAYPAL_RECEIVER_EMAIL = 'sb-vf5e226939786@business.example.com'
+
+PAYPAL_RECEIVER_EMAIL = 'sb-vf5e226939786@business.example.com'
+# PAYPAL_WPP_USER = 'sb-vf5e226939786_api1.business.example.com'
+# PAYPAL_WPP_PASSWORD = 'Q2D8NDP4S4W5V4L7'
+# PAYPAL_WPP_SIGNATURE = 'AAXk.4xTqZKKmyPjxA7u4fiEF3diAHAh.7vjh9psVPyPZD7.VBXDRzlU'
+
+
+PAYPAL_TEST = True
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -83,7 +98,7 @@ WSGI_APPLICATION = 'real_estate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'real_estate_db',
+        'NAME': 'realty_hive_db',
         'USER' : 'postgres',
         'PASSWORD' : 'Swastik00000',
         'HOST' : 'localhost',
@@ -121,7 +136,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

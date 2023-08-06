@@ -14,10 +14,7 @@ class Property(models.Model):
     square_feet = models.PositiveIntegerField()
     overview = models.TextField()
     bhk = models.CharField(max_length=10)
-    nearby_hospitals = models.CharField(max_length=100)
-    nearby_schools = models.CharField(max_length=100)
-    nearby_police_station = models.CharField(max_length=100)
-    price = models.CharField(max_length=20)
+    price = models.IntegerField()
     pictures = models.ImageField(upload_to='property_images/')
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
