@@ -1,0 +1,35 @@
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+{% load static %}
+
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="{% static '/css/confirmation.css' %}">
+
+<div class="bg">
+  
+    <div class="card">
+      
+      <span class="card__success"><i class="ion-checkmark"></i></span>
+      
+      <h1 class="card__msg">Payment Complete</h1>
+      <h2 class="card__submsg">Thank you for your transfer</h2>
+      <h2>Congratulations!!!</h2>
+      <h3>This property is yours</h3>
+      
+      <div class="card__body">
+        
+        
+        <div class="card__recipient-info">
+          <p class="card__recipient">{{ billing_name }}</p>
+          
+        </div>
+        
+        <h1 class="card__price"><span>₹</span>{{ property_price }} </h1>
+        
+        <a href="{% url 'home' %}" class="card__button">Back to Home</a>
+      
+    </div>
+    
+  </div>
+
+{% endblock %}

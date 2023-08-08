@@ -1,0 +1,395 @@
+{% extends "home/layout.html" %}
+{% block body %}
+{% load static %}
+
+<style>
+ 
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown-btn {
+  color: #333; 
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+
+.customdropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9; 
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+
+.customdropdown-content li {
+  padding: 10px;
+}
+
+.customdropdown-content li a {
+  color: #333; 
+  text-decoration: none;
+  display: block;
+}
+
+
+.custom-dropdown:hover .customdropdown-content {
+  display: block;
+}
+
+.big-container {
+  position: relative;
+  font-size: 1.5rem;
+  max-width: 550px; 
+  margin: 0 auto; 
+  padding: 10px; 
+  margin-top: 10px;
+  margin-left: -16px;
+}
+
+.search-local {
+  display: flex;
+  align-items: center;
+  background-color: #ecf3fd; 
+  border-radius: 25px; 
+  padding: 8px 12px; 
+  border: 2px solid #0f1b4c;
+}
+
+
+.search-field {
+  display: flex;
+  align-items: center;
+}
+
+
+#city-input {
+  border-right: 1px solid #ccc;
+  flex: 1; 
+  width: 30%;  
+  padding-right: 10px; 
+}
+
+#address-input {
+  flex: 1; 
+  width: 70%; 
+}
+
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: #333; 
+  padding: 4px 8px; 
+}
+
+input::placeholder {
+  font-size: 1.2rem;
+}
+
+.icon {
+  padding-left: 5px;
+  
+}
+
+#search-button {
+  background-color: #0f1b4c; 
+  color: #fff; 
+  border: none;
+  padding: 10px 10px;
+  border-radius: 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+  font-size: 1.5rem;
+  border: 2px solid #0f1b4c;
+}
+
+#search-button:hover {
+  background-color: #e6f0ff; 
+  color: black;
+}
+
+
+
+</style>
+
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/home.css' %}">
+<link rel="stylesheet" href="{% static '/css/mquery.css' %}">
+
+
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+<header>
+  <div class="container flex ai-c jc-sb">
+    <div class="left flex ai-c">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="page logo" srcset=""></a>
+      
+      <nav class="nav-desktop">
+        <a href="#">Home</a>
+        <div class="custom-dropdown">
+          <a  class="custom-dropdown-btn">My Offers &#9662;</a>
+          <ul class="customdropdown-content">
+            <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+            <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+          </ul>
+        </div>
+        {% if request.user.seller %}
+        <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+        <a href="{% url 'property_form:my_listings'  %}">Your Listings</a>
+        {% else %}
+        <a href="#" onclick="showError()">Add Listing</a>
+        {% endif %}    
+        
+      </nav>
+    </div>
+    
+    <div class="right flex ai-c">
+      {% if user.is_authenticated %}
+        <!-- User is logged in -->
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
+        
+        
+        {% else %}
+        
+        <button class="btn account" onclick="openModal()">Sign In</button>
+        <button class="btn btn-fill" onclick="openModal1()" >Register</button>
+        
+        {% endif %}
+        <div class="hamb">
+          <span class="top"></span>
+          <span class="mid"></span>
+          <span class="bottom"></span>
+        </div>
+        
+      </div>
+    </div>
+  </header>
+  
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Sign In</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Seller Sign in </button></a>
+        <a href="{% url 'authentication:client_login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Client Sign in</button></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Register</h2>
+        <span class="close" onclick="closeModal1()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Seller Register</button></a>
+        <a href="{% url 'authentication:client_register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Client Register</button></a>
+      </div>
+    </div>
+  </div>
+  
+  <nav class="nav-mobile">
+    <a href="#">Home</a>
+    <a href="#">Add Listings</a>
+    <a href="#">Contact</a>
+  </nav>
+  
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="desc">
+        <h3 class="tag">Welcome to RealtyHive</h3>
+        <h2 class="title">Discover a place you'll love to live</h2>
+        <p class="text">Get the best property deals first,before they reach the mass market! hot foreclosure deals with simple search</p>
+        <!-- <div class="search-local">
+          <div class="icon">
+            <ion-icon name="location-outline"></ion-icon>
+          </div>
+          
+          <input id = "search-input" type="text" value="" autocomplete = 'off' placeholder=" Search for City...">
+          <button id="search-button" data-url="{% url 'property_form:properties' %}">
+            <span class="search-text">Search</span>            
+          </button>
+        
+        </div>
+
+        <div id="search-results"></div> -->
+
+
+        <div class="big-container">
+          <div class="search-local">
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <input id="city-input" type="text" value="" autocomplete="off" placeholder="Enter City...">
+            </div>
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <input id="address-input" type="text" value="" autocomplete="off" placeholder="Enter Address...">
+            </div>
+            <button id="search-button" data-url="{% url 'property_form:properties' %}">
+              <span class="search-text">Search</span>
+            </button>
+          </div>
+        </div>
+          <div id="search-results"></div>
+        
+      </div>
+
+
+    </div>
+
+    
+  </section>
+  
+
+  <section class="property" id ="property">
+    <div class="container1">
+
+      <p class="section-subtitle">Properties</p>
+      <h2 class="h2 section-title">Featured Listings</h2>
+
+      <ul class="property-list has-scrollbar">
+
+        {% for property in properties %}
+        {% if property.is_featured %}
+        <li>
+          <div class="property-card" style="cursor: pointer;" data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)">
+
+            <figure class="card-banner">
+              <a data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)">
+                <img src="{{ property.pictures.url }}" alt="New Apartment Nice View" class="w-100">
+                <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+              </a>
+            </figure>
+            
+            <div class="card-content">
+
+              <div class="card-price">
+                <strong>{{ property.price }}</strong>
+              </div>
+
+              <h3 class="h3 card-title">
+                <a data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)" >{{ property.address }}</a>
+              </h3>
+
+              <p class="card-text">
+                {{ property.overview }}
+              </p>
+
+              <ul class="card-list">
+
+                <li class="card-item">
+                  <strong>{{  property.bhk }}</strong>
+
+                  <ion-icon name="bed-outline"></ion-icon>
+
+                  <span>Bedrooms</span>
+                </li>
+
+                <li class="card-item">
+                  <strong>2</strong>
+
+                  <ion-icon name="man-outline"></ion-icon>
+
+                  <span>Bathrooms</span>
+                </li>
+
+                <li class="card-item">
+                  <strong>{{ property.square_feet }}</strong>
+
+                  <ion-icon name="square-outline"></ion-icon>
+
+                  <span>Square Ft</span>
+                </li>
+
+              </ul>
+              {% endif %}
+              {% endfor %}
+            </div>
+        </li>  
+        
+         </ul>
+
+    </div>
+
+  </section>
+
+  <div id="errorModal" class="modal" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please authenticate to proceed further.</h2>
+        <span class="close" onclick="closeErrorModal()">&times;</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to open the error modal
+    function openErrorModal() {
+      document.getElementById("errorModal").style.display = "flex";
+      document.body.classList.add('modal-open');
+    }
+  
+    // Function to close the error modal
+    function closeErrorModal() {
+
+      document.body.classList.remove('modal-open');
+      document.getElementById("errorModal").style.display = "none";
+    }
+  
+    function handlePropertyCardClick(cardElement) {
+  if (!isAuthenticated) {
+    openErrorModal();
+  } else {
+    const propertyUrl = cardElement.dataset.propertyUrl;
+    window.location.href = propertyUrl;
+  }
+}
+
+  </script>
+
+{% if request.user.is_authenticated %}
+<script>
+  var isAuthenticated = true;
+</script>
+{% else %}
+<script>
+  var isAuthenticated = false;
+</script>
+{% endif %}
+  
+   
+  <script src="{% static '/js/script.js' %}"></script>
+  {% endblock %}

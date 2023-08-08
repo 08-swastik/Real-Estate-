@@ -1,0 +1,241 @@
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+
+
+{% load static %}
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/property_description.css' %}">
+
+
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+    </div>
+      <div class="nav-middle">
+      <div class="search-local">
+        <div class="icon">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+        
+        <input id = "search-input" type="text" placeholder=" Search for City...">
+        <button id="search-button" data-url="{% url 'property_form:properties' %}">
+          <span class="search-text">Search</span>            
+        </button>      
+      </div>
+
+      <div id="search-results"></div>
+      </div>
+    
+    <div class="navbar-right">
+      {% if user.is_authenticated %}
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
+      {% else %}
+      <!-- User is not logged in -->
+      <button class="btn account" onclick="openModal()">Sign In</button>
+      <button class="btn btn-fill" onclick="openModal1()">Register</button>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Sign In</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Seller Sign in </button></a>
+        <a href="{% url 'authentication:client_login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Client Sign in</button></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Register</h2>
+        <span class="close" onclick="closeModal1()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Seller Register</button></a>
+        <a href="{% url 'authentication:client_register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Client Register</button></a>
+      </div>
+    </div>
+  </div>
+
+<div class="property-description">
+    <div class="property-image">
+        <img src="{{ property_image }}" alt="Property Image">
+        
+        
+          
+        <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+    </div>
+    <div class="property-details">
+      {% if special_price %}
+        <div class="property-title">
+            <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+        <span class="property-price">
+            <span>Offer price: </span>
+            <span style="text-decoration: line-through;">₹{{ property_price }}</span>
+            <span> ₹{{ special_price }}</span>
+        </span>
+    {% else %}
+    <div class="property-title1">
+      <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+        <span class="property-price">₹{{ property_price }}</span>
+    {% endif %}
+            
+        </div>
+
+        <div class="property-buttons">
+          {% if not is_sold %}
+              {% if not seller_or_client or seller_or_client.id != property_obj.seller.id %}
+                  <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
+                  <form method="POST">
+                    {% csrf_token %}
+                  <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+                  </form>
+              {% endif %}
+          {% else %}
+              <span class="sold-label">Sold</span>
+          {% endif %}
+      </div>
+      
+
+        <div id="negotiation-form" class="n-modal">
+          <div class="n-modal-content">
+              <div class="n-modal-header">
+                  <h2>Request Your Price Here!!!</h2>
+                  <span class="n-close" onclick="closeNegotiationForm()">&times;</span>
+              </div>
+              <div class="n-modal-divider"></div>
+              <h3 class="actual-price">Product price: </h3>
+              <form method="POST" action="{% url 'negotiation:negotiation_form' property_id=property_id %}" >
+                
+
+                {% csrf_token %}
+                  <div class="input-group">
+                      <i class="fas fa-envelope"></i>
+                      <input class="input" type="email" id="email" name="email" value="{{ seller_or_client.email }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-user"></i>
+                      <input class="input" type="text" id="name" name="name" value="{{ seller_or_client.first_name }} {{ seller_or_client.last_name }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-phone"></i>
+                      <input class="input" type="tel" id="phone"  name = "phone" value="{{ seller_or_client.phone_number }}" required>
+                  </div>
+                  <div class="input-group">
+                      <i class="fas fa-money-bill-alt"></i>
+                      <input class="input" type="text" id="requested-price" name="requested_price" placeholder="Requested Price:" required>
+                  </div>
+                  <button type="submit">Submit</button>
+              </form>
+          </div>
+      </div>
+      
+
+        </div>
+        
+        <script>
+            function handleBuyNow() {
+                var isAuthenticated = "{{ request.user.is_authenticated }}";
+                if (isAuthenticated === "False") {
+                  showSignInAlert();
+                } 
+            }
+
+            // function redirectToPayment() {
+            //     window.location.href = 'property_detail'
+        
+            // }
+
+            function showSignInAlert() {
+        alert("Please sign in first!");
+    }
+</script>
+        
+        
+        <div class="property-features">
+          <div class="new-features">
+          <ul>
+            <li><i class="fas fa-bed"></i> <strong> {{ bhk  }}</strong> Beds</li>
+                <li><i class="fas fa-bath"></i> <strong> 3</strong> Baths</li>
+                <li><i class="fas fa-expand"></i> <strong> {{ property_sqft }}</strong> sqft</li>
+            </ul>
+            <a href="{% url 'negotiation:recent_negotiations' property_id=property_id %}" class="recent-negotiations">Recent Negotiations</a>
+            </div>
+            <div class="map-additional">
+                <button id="map-button" class="property-button map-button active" onclick="showMap()">Map</button>
+                <button id="additional-info-button" class="property-button additional-info-button" onclick="toggleAdditionalInfo()">Additional Information</button>
+            </div>
+            
+            <div id="map-container" style="display: block;">
+                <!-- Map content goes here -->
+            </div>
+            <div id="additional-info" style="display: none;">
+                <div class="columns-container">
+                    <div class="columns-row">
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Schools:</h4>
+                            <ul id="schools-list"></ul>
+                        </div>
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Police Stations:</h4>
+                            <ul id="police-stations-list"></ul>
+                        </div>
+                        <div class="column">
+                            <h4 class="column-heading">Nearby Hospitals:</h4>
+                            <ul id="hospitals-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="property-description-text">
+            <h2>Overview</h2>
+            <p>{{ property_overview }}</p>
+        </div>
+        <div class="property-key-features">
+            <h2>Key Features</h2>
+            <ul>
+                <li><i class="fas fa-check"></i> This property spans over {{ property_sqft }} square feet, providing ample space for comfortable living and entertaining.</li>
+                <li><i class="fas fa-check"></i> The house features {{ bhk }} bedrooms, including a master suite with a private en-suite bathroom.</li>
+                <li><i class="fas fa-check"></i> There are three full bathrooms, tastefully designed and featuring high-end fixtures.</li>
+                <li><i class="fas fa-check"></i> The gourmet kitchen is a chef's dream, equipped with top-of-the-line stainless steel appliances, granite countertops, and plenty of storage space.</li>
+                <li><i class="fas fa-check"></i> The main level boasts an open-concept layout, perfect for hosting gatherings and creating lasting memories with family and friends.</li>
+                <li><i class="fas fa-check"></i> The property includes a well-maintained backyard with a spacious patio, ideal for outdoor dining and relaxation.</li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+<script src="{% static '/js/script.js' %}"></script>
+<script src="{% static '/js/property_description.js' %}"></script>
+{% endblock %}

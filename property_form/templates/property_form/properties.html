@@ -1,0 +1,164 @@
+{% extends 'property_form/layout.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/properties.css' %}">
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<!-- <link rel="stylesheet" href="{% static '/css/property_description.css' %}"> -->
+
+
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+    </div>
+      <div class="nav-middle">
+      <div class="search-local">
+        <div class="icon">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+        
+        <input id = "search-input" type="text" placeholder=" Search for City...">
+        <button id="search-button" data-url="{% url 'property_form:properties' %}">
+          <span class="search-text">Search</span>            
+        </button>
+      
+      </div>
+
+      <div id="search-results"></div>
+      </div>
+    
+    <div class="navbar-right">
+      {% if user.is_authenticated %}
+        
+        <div class="dropdown">
+          <button class="dropbtn">{{ user.username }}</button>
+          <div class="dropdown-content">
+            <a href="{% url 'authentication:logout' %}">Logout</a>
+          </div>
+        </div> 
+        
+        <a href="#" class="favorites-link" title="Favorites">
+          <button class="favorites-button">
+            <i class="far fa-heart"></i>
+          </button>
+        </a>
+      {% else %}
+      <button class="btn account" onclick="openModal()">Sign In</button>
+      <button class="btn btn-fill" onclick="openModal1()">Register</button>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Sign In</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Seller Sign in </button></a>
+        <a href="{% url 'authentication:client_login' %}"><button class="modal-button"><i class="fas fa-sign-in-alt"></i>Client Sign in</button></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please Register</h2>
+        <span class="close" onclick="closeModal1()">&times;</span>
+      </div>
+      <div class="button-container">
+        <a href="{% url 'authentication:register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Seller Register</button></a>
+        <a href="{% url 'authentication:client_register' %}"><button class="modal-button"><i class="fas fa-user-plus"></i>Client Register</button></a>
+      </div>
+    </div>
+  </div>
+  
+  <section class="property-section">
+      {% if properties %}
+    <h2 class="heading1">Search results for:</h2>
+    <h2 class="property-heading">{{ searched_city }},Real Estate & Homes For Sale</h2>
+  <div class="property-container">
+    {% for property in properties %}
+
+    <div class="property-card">
+        <div class="property-image">
+          <a data-property-url="{% url 'property_description_trade:property_detail' property.id %}" onclick="handlePropertyCardClick(this)">
+        <img src="{{ property.pictures.url }}" alt="Property Photo">
+        <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+    </div>
+    <div class="property-details">
+        <div class="price">{{ property.price }}/Year</div>
+        <div class="address">{{ property.address }}</div>
+        <div class="overview">
+            <p>{{ property.overview }}</p>
+        </div>
+        <div class="bottom-line">
+            <div class="bedrooms">{{ property.bhk }} rooms</div>
+            <div class="bathrooms">2 Bathrooms</div>
+            <div class="square-feet">{{ property.square_feet }} sqft</div>
+        </div>
+    </div>
+</a>
+   </div>
+
+   {% endfor %}
+   
+</div>
+{% else %}
+<h2 class="heading1">No properties found for the city: {{ searched_city }}</h2>
+{% endif %}
+  </section>
+
+  <div id="errorModal" class="modal" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Please authenticate to proceed further.</h2>
+        <span class="close" onclick="closeErrorModal()">&times;</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to open the error modal
+    function openErrorModal() {
+      document.getElementById("errorModal").style.display = "flex";
+      document.body.classList.add('modal-open');
+    }
+  
+    // Function to close the error modal
+    function closeErrorModal() {
+
+      document.body.classList.remove('modal-open');
+      document.getElementById("errorModal").style.display = "none";
+    }
+  
+    function handlePropertyCardClick(cardElement) {
+  if (!isAuthenticated) {
+    openErrorModal();
+  } else {
+    const propertyUrl = cardElement.dataset.propertyUrl;
+    window.location.href = propertyUrl;
+  }
+}
+
+  </script>
+
+{% if request.user.is_authenticated %}
+<script>
+  var isAuthenticated = true;
+</script>
+{% else %}
+<script>
+  var isAuthenticated = false;
+</script>
+{% endif %}
+
+  <script src="{% static '/js/script.js' %}"></script>
+  <script src="{% static '/js/property_description.js' %}"></script>
+{% endblock %}
