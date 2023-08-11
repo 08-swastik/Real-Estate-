@@ -8,6 +8,7 @@ urlpatterns = [
     path('property/<int:property_id>/recent_negotiations',views.recent_negotiations, name = 'recent_negotiations') ,
     path('property/<int:property_id>/available_negotiations',views.available_negotiations, name = 'available_negotiations'),
     path('myoffers/',views.my_offers, name = 'my_offers'),
-    path('my_negotiations/',views.my_negotiations, name = 'my_negotiations')
+    path('my_negotiations/',views.my_negotiations, name = 'my_negotiations'),
+    path('reject_offer/<int:negotiation_id>/',views.delete_offers,name = "delete_offers")
     
 ]

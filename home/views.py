@@ -16,11 +16,22 @@ def home(request):
     return render(request,'home/home.html',context)
 
 
-def property_search(request):
-    search_query = request.GET.get('query', '')
-    search_results = Property.objects.filter(address__icontains=search_query)
+def address_search(request):
     
-    # Process search results and return the data as JSON
+    address_query = request.GET.get('address', '')
+    search_results = Property.objects.filter(address__icontains=address_query)
+    
+    
     data = [{'address': property.address} for property in search_results]
     
     return JsonResponse(data, safe=False)    
+
+def city_search(request):
+
+    city_query = request.GET.get('city', '')
+    search_results = Property.objects.filter(city__icontains=city_query)
+
+    data = [{'city': property.city} for property in search_results]
+
+    return JsonResponse(data, safe=False)
+

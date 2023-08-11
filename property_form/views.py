@@ -8,6 +8,7 @@ def create_property(request):
     
         if request.method == 'POST':
             address = request.POST.get('address')
+            city = request.POST.get('address')
             square_feet = request.POST.get('square_feet')
             overview = request.POST.get('overview')
             bhk = request.POST.get('bhk')
@@ -17,6 +18,7 @@ def create_property(request):
             property_obj = Property.objects.create(
                 seller=seller,
                 address=address,
+                city = city,
                 square_feet=square_feet,
                 overview=overview,
                 bhk=bhk,
@@ -52,16 +54,27 @@ def my_listings(request) :
      
 
 def properties(request):
-     
     city = request.GET.get('city')
-    properties = Property.objects.filter(address__icontains=city) if city else []
+    address = request.GET.get('address')
+
+    # Filter properties based on provided city and address
+    if city and address:
+        properties = Property.objects.filter(city__icontains=city, address__icontains=address)
+    elif city:
+        properties = Property.objects.filter(city__icontains=city)
+    elif address:
+        properties = Property.objects.filter(address__icontains=address)
+    else:
+        properties = []
 
     context = {
         'properties': properties,
         'searched_city': city,
+        'searched_address': address,
     }
-     
-    return render(request, 'property_form/properties.html' , context)
+
+    return render(request, 'property_form/properties.html', context)
+
 # Create your views here.
 
 def update_property(request, property_id):
@@ -70,6 +83,7 @@ def update_property(request, property_id):
 
     if request.method == 'POST':
         property_obj.address = request.POST.get('address')
+        property_obj.city = request.POST.get('city')
         property_obj.square_feet = request.POST.get('square_feet')
         property_obj.overview = request.POST.get('overview')
         property_obj.bhk = request.POST.get('bhk')
@@ -96,6 +110,6 @@ def delete_property(request,property_id):
           property_obj.delete()
           return redirect('property_form:my_listings')  
      
-     context = {'property' : property_obj}
+    #  context = {'property' : property_obj}
 
-     return render(request,'property_form/delete_property.html', context)
+    #  return render(request,'property_form/delete_property.html', context)

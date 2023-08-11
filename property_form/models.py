@@ -11,6 +11,7 @@ class Property(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     is_featured = models.BooleanField(default=False)
     address = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
     square_feet = models.PositiveIntegerField()
     overview = models.TextField()
     bhk = models.CharField(max_length=10)

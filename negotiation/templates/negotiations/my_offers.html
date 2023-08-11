@@ -227,7 +227,7 @@ p {
     <div class="card-container">
         <div class="grid">
             {% for negotiation in accepted_negotiations %}
-            
+            <h1>{{ negotiation.id }}</h1>
             <div class="offer-card" id = "offerCard" style="cursor: pointer;" data-property-url="{% url 'property_description_trade:property_detail' negotiation.property.id %}">
               
               
@@ -247,10 +247,14 @@ p {
                         </div>
                 
                     <p class="payment-link">
-                        <a href="{% url 'property_description_trade:payment' negotiation.property.id %}">Buy Now</a>
+                        <a href="{% url 'property_description_trade:checkout' negotiation.property.id %}">Buy Now</a>
+                        <form action="{% url 'negotiation:delete_offers' negotiation.id %}" method="POST" >
+                          {% csrf_token %}
+                          <button type="submit">Delete</button>
+                        </form>  
                     </p>
     
-                
+            
             </div>
     
             {% endfor %} 
@@ -262,16 +266,15 @@ p {
 
     <script>
      
-      const offerCard = document.getElementById('offerCard');
-    
-      
-      offerCard.addEventListener('click', function() {
-        
-        const propertyUrl = offerCard.getAttribute('data-property-url');
-    
-        
-        window.location.href = propertyUrl;
-      });
+     const offerCards = document.querySelectorAll('.offer-card');
+
+// Loop through each offer card and attach the click event listener
+  offerCards.forEach(function(offerCard) {
+  offerCard.addEventListener('click', function() {
+    const propertyUrl = offerCard.getAttribute('data-property-url');
+    window.location.href = propertyUrl;
+  });
+});
     </script>
     
 

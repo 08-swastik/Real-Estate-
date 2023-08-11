@@ -82,7 +82,7 @@
   <section class="property-section">
       {% if properties %}
     <h2 class="heading1">Search results for:</h2>
-    <h2 class="property-heading">{{ searched_city }},Real Estate & Homes For Sale</h2>
+    <h2 class="property-heading">{{ searched_city }}{{ searched_address }},Real Estate & Homes For Sale</h2>
   <div class="property-container">
     {% for property in properties %}
 
@@ -111,7 +111,7 @@
    
 </div>
 {% else %}
-<h2 class="heading1">No properties found for the city: {{ searched_city }}</h2>
+<h2 class="heading1">No properties found for the corresponding address</h2>
 {% endif %}
   </section>
 

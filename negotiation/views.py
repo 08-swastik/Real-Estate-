@@ -97,11 +97,25 @@ def available_negotiations(request, property_id):
 
 
 def my_offers(request):
-    accepted_negotiations = Negotiation.objects.filter(user=request.user, status = 'accepted',)
+    accepted_negotiations = Negotiation.objects.filter(user=request.user, status = 'accepted')
+
+    
+    
     return render(request,'negotiations/my_offers.html',{'accepted_negotiations': accepted_negotiations})   
 
 
 def my_negotiations(request):
-    negotiations = Negotiation.objects.filter(user=request.user,  )
+    negotiations = Negotiation.objects.filter(user=request.user)
     return render(request,'negotiations/my_negotiations.html',{'negotiations': negotiations})
+
+
+def delete_offers(request,negotiation_id):
+    negotiation = get_object_or_404(Negotiation, id=negotiation_id)
+    if request.method == 'POST':
+
+        negotiation.delete()
+        
+        return redirect('negotiation:my_offers')
+
+
 
