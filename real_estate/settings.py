@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
+STRIPE_SECRET_KEY = "sk_test_51Na1uWSHQEYT4aJPcHhfRB2X0AVEFJNCKlnRTZeKnMYDJ4hzSxUbI0RJ8VVoE6TSu16hKmuWNFpMQS5yu0Hh6cW000eIUh9SL7"
 
 
 # Application definition
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'property_form',
     'property_description_trade',
     'negotiation',
-    'paypal.standard.ipn',
+    # 'paypal.standard.ipn',
     
 ]
 
@@ -136,7 +136,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-# USE_TZ = True
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

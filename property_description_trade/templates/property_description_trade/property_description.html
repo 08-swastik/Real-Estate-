@@ -94,7 +94,7 @@
     <div class="property-details">
       {% if special_price %}
         <div class="property-title">
-            <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+            <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }},{{ city }}</h3>
         <span class="property-price">
             <span>Offer price: </span>
             <span style="text-decoration: line-through;">₹{{ property_price }}</span>
@@ -102,7 +102,7 @@
         </span>
     {% else %}
     <div class="property-title1">
-      <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }}</h3>
+      <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }},{{ city }}</h3>
         <span class="property-price">₹{{ property_price }}</span>
     {% endif %}
             
@@ -112,9 +112,9 @@
           {% if not is_sold %}
               {% if not seller_or_client or seller_or_client.id != property_obj.seller.id %}
                   <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
-                  <form method="POST">
+                  <form method="POST" action="{% url 'property_description_trade:property_detail' property_id %}">
                     {% csrf_token %}
-                  <button class="buy-button" onclick="handleBuyNow()">Buy Now</button>
+                  <button class="buy-button" >Buy Now</button>
                   </form>
               {% endif %}
           {% else %}
@@ -130,7 +130,10 @@
                   <span class="n-close" onclick="closeNegotiationForm()">&times;</span>
               </div>
               <div class="n-modal-divider"></div>
-              <h3 class="actual-price">Product price: </h3>
+              <h3 class="actual-price">Product price: {{ property_price }} lakhs</h3>
+              
+              <h3 class="actual-price">Highest bidded price: {{ highest_bidded_price }}</h3>
+              
               <form method="POST" action="{% url 'negotiation:negotiation_form' property_id=property_id %}" >
                 
 
@@ -164,13 +167,12 @@
                 var isAuthenticated = "{{ request.user.is_authenticated }}";
                 if (isAuthenticated === "False") {
                   showSignInAlert();
-                } 
+                }
+                else
+                window.location.href = ''
             }
 
-            // function redirectToPayment() {
-            //     window.location.href = 'property_detail'
-        
-            // }
+            
 
             function showSignInAlert() {
         alert("Please sign in first!");
@@ -185,7 +187,7 @@
                 <li><i class="fas fa-bath"></i> <strong> 3</strong> Baths</li>
                 <li><i class="fas fa-expand"></i> <strong> {{ property_sqft }}</strong> sqft</li>
             </ul>
-            <a href="{% url 'negotiation:recent_negotiations' property_id=property_id %}" class="recent-negotiations">Recent Negotiations</a>
+            
             </div>
             <div class="map-additional">
                 <button id="map-button" class="property-button map-button active" onclick="showMap()">Map</button>

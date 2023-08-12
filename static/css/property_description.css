@@ -437,6 +437,7 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    margin-bottom: 10px;
     /* flex-wrap: nowrap; */
     
 }
@@ -446,6 +447,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 12rem;
+  margin-bottom: 10px;
   /* flex-wrap: nowrap; */
   
 }
@@ -508,7 +510,6 @@ body {
     background-color: var(--red);
     color: #fff;
     pointer-events: none;
-    
     border: 2px solid var(--red);
     padding: 11px 28px;
     margin-left: 10px;
@@ -771,7 +772,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  height: 450px;
+  height: 490px;
   max-width: 470px;
   background-color: white;
   padding: 20px;
@@ -796,7 +797,7 @@ body {
 }
 
 .actual-price {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 form {
   display: flex;
