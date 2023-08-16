@@ -1,0 +1,104 @@
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+
+<style>
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,700,600);
+    body{
+        padding: 0;
+        margin: 0;
+        font-family: 'Raleway', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #333b72;
+    }
+    .card {
+        background-color: #e6f0ff;
+        margin-top: 200px;
+        /* height: 25rem;
+        width: 25rem; */
+        border-radius: 15px;
+        padding: 20px;
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        color: rgb(244, 34, 19);
+    }
+
+    .failed {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: xx-large;
+        font-weight: bolder;
+        /* width: 40%; */
+        /* height: fit-content; */
+    }
+
+    p {
+        height: fit-content;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    
+    .home {
+        padding: 10px 20px;
+        /* border: #333b72; */
+        background-color: #333b72;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        /* width: fit-content; */
+        font-size: 1.5rem;
+        border-radius: 10px;
+        /* text-decoration: none; */
+    }
+    
+    a{
+        color: white;
+        text-decoration: none;
+    }
+
+    a:hover {
+
+        text-decoration: underline;
+    }
+
+    .home:hover {
+        background-color: #333b52;
+    }
+</style>
+
+<div class="card">
+    <div class="icon">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    <div class="failed">
+        Oops! Something went wrong.
+    </div>
+    <p>
+        Either the payment has been cancelled or there has been some network error!
+    </p>
+
+    <div class="button">
+    <buttton class="home"><a href="{% url 'home' %}">Home</buttton></a>
+    </div>
+</div>
+
+
+<script src="https://kit.fontawesome.com/fddf49a99c.js" crossorigin="anonymous"></script>
+
+{% endblock %}

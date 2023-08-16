@@ -26,12 +26,29 @@ SECRET_KEY = 'django-insecure-t^9#%j*$1$07_h%1)n#q+war2^2@3#sqy@hj47z=xj5*10^o62
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['bb3b-117-250-64-133.ngrok-free.app']
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # Set the desired log level
+    },
+}
+
+
+
+NGROK_URL = 'https://bb3b-117-250-64-133.ngrok-free.app' 
 
 STRIPE_SECRET_KEY = "sk_test_51Na1uWSHQEYT4aJPcHhfRB2X0AVEFJNCKlnRTZeKnMYDJ4hzSxUbI0RJ8VVoE6TSu16hKmuWNFpMQS5yu0Hh6cW000eIUh9SL7"
 
-
+ENDPOINT_SECRET = "whsec_323d3b553325f9867d69dbf83c70ace36e60bfcdd691ecfddbb60b5e80ed31b8"
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +77,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://bb3b-117-250-64-133.ngrok-free.app']
+
 
 ROOT_URLCONF = 'real_estate.urls'
 
