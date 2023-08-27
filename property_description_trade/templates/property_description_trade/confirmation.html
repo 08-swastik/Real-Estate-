@@ -3,38 +3,21 @@
 {% load static %}
 
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<!-- <link rel="stylesheet" href="{% static '/css/confirmation.css' %}"> -->
+<link rel="stylesheet" href="{% static '/css/confirmation.css' %}">
 
-<style>
-  body{
-    background-color: #0f1b4c;
-  }
 
-  .card{
-    background-color: #fff;
-    padding: 50px 50px 50px 50px;
-    margin: 200px 50px;
-          border-radius: 10px;
-  }
-</style>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md"></div>
-
-    <div class="col-md">
-      <div class="card card-body">
-         <div class="text-center"> 
-        <h3>View Invoices or download directly to PDF</h3>
-        <p>Your invoice is also sent to you through mail.</p>
-        <a class="btn btn-info" href="#" target="_blank">View Invoice</a>
-        <a class="btn btn-info"  href="#">Download Invoice</a>
-        <a href="{% url 'home' %}" class="card__button">Back to Home</a>
-        </div>
+<div class="wrapper">
+  <div class="modal modal--congratulations">
+      <div class="modal-top">
+          <div class="modal-header">Congratulations</div>
+          <div class="modal-subheader">You have successfully completed the payment!</div>
+          <div class = "modal-header">Your invoice has been also sent through mail.</div>
       </div>
-    </div>
-
-    <!-- <div class="col-md"></div> -->
+      <div class="modal-bottom">
+          <a href="{% url 'property_description_trade:download_pdf' property_id=property_id %}"> <button class="modal-btn u-btn u-btn--share">Download Invoice</button></a>
+          <a href="{% url 'home' %}"<button class="modal-btn u-btn u-btn--success">Home</button></a>
+      </div>
   </div>
 </div>
 

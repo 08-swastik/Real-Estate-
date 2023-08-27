@@ -15,7 +15,7 @@ class Property(models.Model):
     square_feet = models.PositiveIntegerField()
     overview = models.TextField()
     bhk = models.CharField(max_length=10)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     pictures = models.ImageField(upload_to='property_images/')
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')

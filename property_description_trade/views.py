@@ -6,13 +6,14 @@ from django.contrib.auth.decorators import login_required
 from negotiation.models import Negotiation
 from .models import ConfirmationData
 from django.conf import settings
+from django.template.loader import get_template
 import stripe
-import json,os
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from io import BytesIO
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 # from paypal.standard.forms import PayPalPaymentsForm
 
@@ -22,18 +23,24 @@ endpoint_secret = getattr(settings,'ENDPOINT_SECRET', None)
 
 
 
-# Create your views here.
 def property_detail(request,property_id):
 
     property_obj = get_object_or_404(Property, id=property_id)
     user = request.user
 
     
-    highest_bidded_price = None
+    
     highest_bid = Negotiation.objects.filter(property_id=property_id).order_by('-requested_price').first()
 
     if highest_bid:
         highest_bidded_price = highest_bid.requested_price
+        print(highest_bidded_price)
+    else:
+        highest_bidded_price = None
+
+    print(highest_bidded_price)
+
+    
 
     accepted_negotiation = Negotiation.objects.filter(user = request.user,property=property_obj, status='accepted').first()
     actual_price = property_obj.price
@@ -44,10 +51,13 @@ def property_detail(request,property_id):
 
         
     if hasattr(user, 'seller'):
-        seller_or_client = user.seller
+        seller_or_client = user.seller.username
+
     elif hasattr(user, 'client'):
-        seller_or_client = user.client
+        seller_or_client = user.client.username
     
+    print(seller_or_client)
+
     is_sold = property_obj.status == 'sold'
 
     if request.method == 'POST':
@@ -77,56 +87,94 @@ def property_detail(request,property_id):
 
     
 
-# @login_required(login_url='authentication:signin')
+
 def confirmation(request) :
 
-
     property_id = request.GET.get('property_id')
+
+    confirmation_data = ConfirmationData.objects.get(property_id=property_id)
+
+    print(confirmation_data) 
+    email = confirmation_data.email
+    name = confirmation_data.name
+    amount_total = confirmation_data.amount_total
+
+
+    property_obj = get_object_or_404(Property, id=property_id)
+    seller_email = property_obj.seller.email
+
+    pdf = render_to_pdf("property_description_trade/invoice_template.html", {
+            'name': name,
+            'email': email,
+            'amount_total': amount_total,
+        })
     
+    send_confirmation_email(seller_email, pdf.content)
+    send_confirmation_email(email, pdf.content)
 
-    try:
-        
-        confirmation_data = ConfirmationData.objects.get(property_id=property_id)
-        email = confirmation_data.email
-        name = confirmation_data.name
-        payment_status = confirmation_data.payment_status
-        amount_total = confirmation_data.amount_total
-
-    except ConfirmationData.DoesNotExist:
-
-        email = name = payment_status = amount_total = None
-        
-
-
-
+    property_obj.status = 'sold'
+    property_obj.save()
+    
+    print(property_id)
     return render(request,'property_description_trade/confirmation.html',{
         'property_id': property_id,
-        'email': email,
-        'name': name,
-        'payment_status': payment_status,
-        'amount_total': amount_total,
     })
+    
+def download_pdf(request,property_id):
+
+    print(property_id)
+    confirmation_data = ConfirmationData.objects.get(property_id=property_id)
 
 
 
-    # property = get_object_or_404(Property, id=property_id)
+     
+    email = confirmation_data.email
+    name = confirmation_data.name
+    amount_total = confirmation_data.amount_total
+    address = confirmation_data.property.address
+    context = {
+        'email': email,
+        'name' : name,
+        'amount' : amount_total,
+        'address' : address
+    }
 
-    # negotiation = Negotiation.objects.filter(user = request.user ,property=property, status='accepted').first()
+    print(email,name,amount_total,address)
+    pdf = render_to_pdf("property_description_trade/invoice_template.html", context)
+    if pdf:
+        response = HttpResponse(pdf, content_type="application/pdf")
+        response['Content-Disposition'] = f'attachment; filename="invoice.pdf"'
+        return response
+    return HttpResponse("Error generating PDF")
+
+   
+def send_confirmation_email(email, pdf_content):
+    
+    subject = 'Confirmation Email'
+    message = 'Thank you for your purchase. Your order has been confirmed.'
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+
+    email_message = EmailMessage(
+        subject, message, from_email, recipient_list,
+        
+    )
+    email_message.attach('confirmation.pdf', pdf_content, 'application/pdf')
+
+    # Send the email
+    email_message.send()
 
     
-    # property_price = negotiation.requested_price if negotiation  else property.price
-
-    # property.status = 'sold'
-    # property.save()
-
-    # context = {
-    #     'property': property,
-    #     'property_price': property_price,
-    #     'billing_name': billing_name,
-
-    # }
 
 
+def render_to_pdf(template_path, context_dict):
+    template = get_template(template_path)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type="application/pdf")
+    return None
 
 
 
@@ -135,16 +183,19 @@ def checkout(request,property_id) :
 
     property = get_object_or_404(Property, id=property_id)
 
+    negotiation = Negotiation.objects.filter(user = request.user ,property=property, status='accepted').first()
     
 
-    negotiation = Negotiation.objects.filter(user = request.user ,property=property, status='accepted').first()
+    
+
 
     
     property_price = negotiation.requested_price if negotiation  else property.price
-
+    # print(property_price)
     try:
-
-        unit_amount_in_cents = int(property_price * 1000000)
+        print(property_price)
+        unit_amount_in_cents = int(property_price * 10000000)
+        print(unit_amount_in_cents)
         success_url = f'{settings.NGROK_URL}/confirmation/?property_id={property_id}'
         cancel_url = f'{settings.NGROK_URL}/error/'
 

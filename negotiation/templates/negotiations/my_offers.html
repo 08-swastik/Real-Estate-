@@ -8,13 +8,13 @@
 
 
 body {
-        font-family: "Poppins", sans-serif;
-        background-color: #e6f0ff;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  font-family: "Poppins", sans-serif;
+  background-color: #e6f0ff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -289,7 +289,7 @@ p {
                         </div>
                 
                     <div class="payment-link">
-                        <a>Buy Now</a>
+                        <a href="{% url 'property_description_trade:checkout' offer.negotiation.property.id %}">Buy Now</a>
                         <form action="{% url 'negotiation:delete_offers' offer.negotiation.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this property?');">
                           {% csrf_token %}
                           <button class="delete" type="submit">Delete</button>

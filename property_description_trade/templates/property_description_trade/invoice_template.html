@@ -1,0 +1,112 @@
+
+{% extends "property_description_trade/layout.html" %}
+{% block body %}
+{% load static %}
+
+
+
+
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            /* margin: 0; */
+        }
+
+        
+        .invoice-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 20px 0 20px;
+            /* border: 1px solid #ccc; */
+        }
+        .header {
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* gap: 15px;/ */
+        }
+
+        p {
+
+            font-size: 3rem;
+        }
+        
+        
+        .invoice-title {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .address {
+            /* margin-top: 20px; */
+            /* margin-bottom: 5px; */
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: space-between;
+        }
+        .address div {
+            width: 45%;
+        }
+        .item-list {
+            margin-top: 30px;
+            border-collapse: collapse;
+            width: 100%;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .item-list th,
+        .item-list td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .total {
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+
+    <div class="invoice-container">
+        <div class="header">
+            <h1 class="invoice-title">RealtyHive</h1>
+            
+            <h1 class="invoice-title">Invoice</h1>
+        </div>
+        <div class="address">
+            <div>
+                <h2>To:</h2>
+                <p>{{ name }}</p>
+                <p>{{ email }}</p>
+            </div>
+            
+        </div>
+        <table class="item-list">
+            <tr>
+                
+                <th>Address</th>
+                <th>Price</th>
+                
+            </tr>
+            <tr>
+                
+                <td>{{ address }}</td>
+                <td>Rupees {{ amount }}</td>
+                
+            </tr>
+            <!-- Add more rows for additional items -->
+        </table>
+        <div class="total">
+            <p><strong>Total: Rupees {{ amount }}</strong></p>
+        </div>
+    </div>
+
+    {% endblock %}

@@ -13,19 +13,34 @@
     <div class="navbar-left">
       <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
       <a href="{% url 'home' %}" class="nav-link">Home</a>
+      <div class="custom-dropdown">
+        <a class="nav-link">My Offers &#9662;</a>
+        <ul class="customdropdown-content">
+          <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+          <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+        </ul>
+      </div>
     </div>
       <div class="nav-middle">
-      <div class="search-local">
-        <div class="icon">
-          <ion-icon name="location-outline"></ion-icon>
+        <div class="big-container">
+          <div class="search-local">
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <input id="city-input" type="text" value="" autocomplete="off" placeholder="Enter City...">
+            </div>
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <input id="address-input" type="text" value="" autocomplete="off" placeholder="Enter Address...">
+            </div>
+            <button id="search-button" data-url="{% url 'property_form:properties' %}">
+              <span class="search-text">Search</span>
+            </button>
+          </div>
         </div>
-        
-        <input id = "search-input" type="text" placeholder=" Search for City...">
-        <button id="search-button" data-url="{% url 'property_form:properties' %}">
-          <span class="search-text">Search</span>            
-        </button>
-      
-      </div>
 
       <div id="search-results"></div>
       </div>
@@ -93,7 +108,7 @@
         <button class="favorite-button" title="Add to Favorites"><i class="fas fa-heart"></i></button>
     </div>
     <div class="property-details">
-        <div class="price">{{ property.price }}/Year</div>
+        <div class="price"> ₹ {{ property.price }}/Year</div>
         <div class="address">{{ property.address }}</div>
         <div class="overview">
             <p>{{ property.overview }}</p>

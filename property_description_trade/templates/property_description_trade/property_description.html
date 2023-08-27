@@ -17,18 +17,36 @@
     <div class="navbar-left">
       <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
       <a href="{% url 'home' %}" class="nav-link">Home</a>
+      <div class="custom-dropdown">
+      <a class="nav-link">My Offers &#9662;</a>
+      <ul class="customdropdown-content">
+        <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+        <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+      </ul>
+    </div>
+    
+    
     </div>
       <div class="nav-middle">
-      <div class="search-local">
-        <div class="icon">
-          <ion-icon name="location-outline"></ion-icon>
+        <div class="big-container">
+          <div class="search-local">
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <input id="city-input" type="text" value="" autocomplete="off" placeholder="Enter City...">
+            </div>
+            <div class="search-field">
+              <div class="icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <input id="address-input" type="text" value="" autocomplete="off" placeholder="Enter Address...">
+            </div>
+            <button id="search-button" data-url="{% url 'property_form:properties' %}">
+              <span class="search-text">Search</span>
+            </button>
+          </div>
         </div>
-        
-        <input id = "search-input" type="text" placeholder=" Search for City...">
-        <button id="search-button" data-url="{% url 'property_form:properties' %}">
-          <span class="search-text">Search</span>            
-        </button>      
-      </div>
 
       <div id="search-results"></div>
       </div>
@@ -97,8 +115,8 @@
             <h3><i class="fas fa-map-marker-alt"></i>  {{ property_address }},{{ city }}</h3>
         <span class="property-price">
             <span>Offer price: </span>
-            <span style="text-decoration: line-through;">₹{{ property_price }}</span>
-            <span> ₹{{ special_price }}</span>
+            <span style="text-decoration: line-through;">₹{{ property_price }} lakhs</span>
+            <span> ₹ {{ special_price }} lakhs</span>
         </span>
     {% else %}
     <div class="property-title1">
@@ -110,7 +128,8 @@
 
         <div class="property-buttons">
           {% if not is_sold %}
-              {% if not seller_or_client or seller_or_client.id != property_obj.seller.id %}
+          
+              {% if not seller_or_client or seller_or_client != property_obj.seller.username %}
                   <button class="negotiate-button" onclick="openNegotiationForm()">Negotiate Price?</button>
                   <form method="POST" action="{% url 'property_description_trade:property_detail' property_id %}">
                     {% csrf_token %}
@@ -153,6 +172,8 @@
                   <div class="input-group">
                       <i class="fas fa-money-bill-alt"></i>
                       <input class="input" type="text" id="requested-price" name="requested_price" placeholder="Requested Price:" required>
+                      <span class="lakh">lakhs</span>
+
                   </div>
                   <button type="submit">Submit</button>
               </form>

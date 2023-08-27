@@ -6,6 +6,8 @@
 <!--  property_form.css  -->
 <style>
   body {
+
+    font-family: 'Montserrat', sans-serif;
     background-color: #F0F0F0;
     display: flex;
     justify-content: center;
@@ -73,52 +75,49 @@
   .form-input {
     display: flex;
     align-items: center;
-    /* justify-content: space-around; */
     gap:0.8rem;
     width: 90%;
     height: 3rem;
     border: none;
     background-color: rgb(249, 249, 249);
-
-    /* padding: 8px; */
     margin-bottom: 10px;
     border-radius: 10px;
-    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); */
   }
 
   .form-input3 {
     display: flex;
     align-items: center;
-    /* justify-content: space-around; */
     gap:0.8rem;
     width: 90%;
     height: 7rem;
     border: none;
     background-color: rgb(249, 249, 249);
-
-    /* padding: 8px; */
     margin-bottom: 10px;
     border-radius: 10px;
-    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); */
   }
 
   .form-input2 {
     width: 60%;
-    /* flex: 1; */
     outline: none;
     height: 2.5rem;
     border: none;
     font-size: 1.2rem;
     background-color: rgb(249, 249, 249);
     margin-top: 6px;
-    /* padding: 0px 16px; */
     margin-bottom: 10px;
     border-radius: 10px;
-    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); */
   }
 
-  
-
+  .lakh {
+      font-size: 1.2rem;
+      /* padding-right: -10px; */
+      background-color: whitesmoke;
+      border-radius: 5px;
+      padding: 2px;
+      /* height: 2.5rem; */
+      /* height: max-content; */
+      /* border: 2px solid black; */
+        }
 
   .form-textarea {
     outline: none;
@@ -145,8 +144,8 @@
   i {
     margin-left: 10px;
     color: #0f1b4c;
-
   }
+
 
 
   .form-submit-btn {
@@ -169,14 +168,9 @@
   .card-header {
     margin-top: 10vh;
     color: #0f1b4c;
-
-    /* background-color: #333b72; */
     padding: 20px;
-    /* border-radius: 10px 10px 0 0; */
-    /* color: white; */
     word-spacing: 5px;
     letter-spacing: 2px;
-    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4) */
   }
 </style>
 
@@ -221,6 +215,7 @@
       <div class="form-input">
         <i class="fas fa-dollar-sign"></i>
         <input type="text" id="price" name="price" class="form-input2" placeholder="Price:" required>
+        <span class="lakh">lakhs</span>
       </div>
 
       <div class="form-input">

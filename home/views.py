@@ -30,6 +30,7 @@ def city_search(request):
 
     city_query = request.GET.get('city', '')
     search_results = Property.objects.filter(city__icontains=city_query)
+    
 
     data = [{'city': property.city} for property in search_results]
 

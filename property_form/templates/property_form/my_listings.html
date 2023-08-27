@@ -6,11 +6,20 @@
 <link rel="stylesheet" href="{% static '/css/my_listings.css' %}">
 
 
+
 <nav class="navbar">
     <div class="navbar-left">
       <a href="#" class="logo"><img src="{%static 'images/logo.png' %}" alt="Logo"></a>
       <a href="{% url 'home' %}" class="nav-link">Home</a>
-      <a href="{% url 'property_form:create_property'  %}" class="nav-link">Add Listings</a>
+      <div class="custom-dropdown">
+        <a  class="custom-dropdown-btn">My Offers &#9662;</a>
+        <ul class="customdropdown-content">
+          <li><a href="{% url 'negotiation:my_negotiations' %}">My Negotiations</a></li>
+          <li><a href="{% url 'negotiation:my_offers' %}">Manage Offers</a></li>
+        </ul>
+      </div>
+      <a href="{% url 'property_form:create_property' %}">Add Listings</a>
+      <a href="{% url 'property_form:my_listings'  %}">Your Listings</a>
     </div>
 
     <div class="navbar-right">
@@ -39,7 +48,7 @@
             <img src="{{ property.pictures.url }}" alt="Property Photo">
         </div>
         <div class="property-details">
-            <div class="price">{{ property.price }}/Year</div>
+            <div class="price"> ₹ {{ property.price }} lakhs </div>
             <div class="address">{{ property.address }}</div>
             <div class="overview">
                 <p>{{ property.overview }}</p>

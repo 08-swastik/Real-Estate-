@@ -10,4 +10,5 @@ urlpatterns = [
     path('my_negotiations/',views.my_negotiations, name = 'my_negotiations'),
     path('reject_offer/<int:negotiation_id>/',views.delete_offers,name = "delete_offers")
     
+    
 ]

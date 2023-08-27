@@ -4,36 +4,36 @@ from .models import Property
 
 def create_property(request):
         
-        seller = Seller.objects.get(user=request.user)
-    
-        if request.method == 'POST':
-            address = request.POST.get('address')
-            city = request.POST.get('address')
-            square_feet = request.POST.get('square_feet')
-            overview = request.POST.get('overview')
-            bhk = request.POST.get('bhk')
-            price = request.POST.get('price')
-            pictures = request.FILES.get('pictures')
-            
-            property_obj = Property.objects.create(
-                seller=seller,
-                address=address,
-                city = city,
-                square_feet=square_feet,
-                overview=overview,
-                bhk=bhk,
-                price=price,
-                pictures=pictures
-            )
+    seller = Seller.objects.get(user=request.user)
 
-            property_obj.save() 
-            
-            return redirect('home')  
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        city = request.POST.get('address')
+        square_feet = request.POST.get('square_feet')
+        overview = request.POST.get('overview')
+        bhk = request.POST.get('bhk')
+        price = request.POST.get('price')
+        pictures = request.FILES.get('pictures')
         
-    
-    
-        context = {'seller': seller}
-        return render(request, 'property_form/property_form.html', context)
+        property_obj = Property.objects.create(
+            seller=seller,
+            address=address,
+            city = city,
+            square_feet=square_feet,
+            overview=overview,
+            bhk=bhk,
+            price=price,
+            pictures=pictures
+        )
+
+        property_obj.save() 
+        
+        return redirect('home')  
+
+
+
+    context = {'seller': seller}
+    return render(request, 'property_form/property_form.html', context)
 
 def my_listings(request) :
     user = request.user

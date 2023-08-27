@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from environ import Env
 import os
 from pathlib import Path
 
@@ -17,16 +17,20 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+env = Env()
+env.read_env()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t^9#%j*$1$07_h%1)n#q+war2^2@3#sqy@hj47z=xj5*10^o62'
+SECRET_KEY = env("SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['bb3b-117-250-64-133.ngrok-free.app']
+# ALLOWED_HOSTS = ['1258-117-250-64-132.ngrok-free.app']
 
 LOGGING = {
     'version': 1,
@@ -42,13 +46,19 @@ LOGGING = {
     },
 }
 
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 
-NGROK_URL = 'https://bb3b-117-250-64-133.ngrok-free.app' 
+# NGROK_URL = 'https://1258-117-250-64-132.ngrok-free.app' 
 
-STRIPE_SECRET_KEY = "sk_test_51Na1uWSHQEYT4aJPcHhfRB2X0AVEFJNCKlnRTZeKnMYDJ4hzSxUbI0RJ8VVoE6TSu16hKmuWNFpMQS5yu0Hh6cW000eIUh9SL7"
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 
-ENDPOINT_SECRET = "whsec_323d3b553325f9867d69dbf83c70ace36e60bfcdd691ecfddbb60b5e80ed31b8"
+ENDPOINT_SECRET = env("ENDPOINT_SECRET")
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,7 +88,7 @@ MIDDLEWARE = [
 
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://bb3b-117-250-64-133.ngrok-free.app']
+# CSRF_TRUSTED_ORIGINS = ['https://1258-117-250-64-132.ngrok-free.app']
 
 
 ROOT_URLCONF = 'real_estate.urls'
@@ -101,31 +111,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'real_estate.wsgi.application'
 
-# PAYPAL_RECEIVER_EMAIL = 'sb-vf5e226939786@business.example.com'
-
-PAYPAL_RECEIVER_EMAIL = 'sb-vf5e226939786@business.example.com'
-# PAYPAL_WPP_USER = 'sb-vf5e226939786_api1.business.example.com'
-# PAYPAL_WPP_PASSWORD = 'Q2D8NDP4S4W5V4L7'
-# PAYPAL_WPP_SIGNATURE = 'AAXk.4xTqZKKmyPjxA7u4fiEF3diAHAh.7vjh9psVPyPZD7.VBXDRzlU'
-
-
-PAYPAL_TEST = True
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'realty_hive_db',
-        'USER' : 'postgres',
-        'PASSWORD' : 'Swastik00000',
-        'HOST' : 'localhost',
-        
-
+        'ENGINE': env("DATABASE_ENGINE"),
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),
     }
 }
+
 
 
 # Password validation
