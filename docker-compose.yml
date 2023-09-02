@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/realtyhive
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      DJANGO_DB_HOST: db
+
+    env_file:
+      - ./real_estate/.env  
+
+  db:
+  image: postgres:15.3  
+
+  environment:
+    POSTGRES_DB: ${DATABASE_NAME}
+    POSTGRES_USER: ${DATABASE_USER}
+    POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    POSTGRES_HOST: ${DATABASE_HOST}
+
+  volumes:
+    - db_data:/var/lib/postgresql/data
+

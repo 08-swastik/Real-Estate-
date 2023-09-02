@@ -59,11 +59,15 @@ def properties(request):
 
     # Filter properties based on provided city and address
     if city and address:
+        
         properties = Property.objects.filter(city__icontains=city, address__icontains=address)
     elif city:
+
         properties = Property.objects.filter(city__icontains=city)
     elif address:
+
         properties = Property.objects.filter(address__icontains=address)
+
     else:
         properties = []
 

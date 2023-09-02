@@ -179,7 +179,7 @@
               <td>{{ negotiation.last_name }}</td>
               <td>{{ negotiation.email }}</td>
               <td>{{ negotiation.phone_number }}</td>
-              <td>{{ negotiation.requested_price }}</td>
+              <td>{{ negotiation.requested_price }} lakhs</td>
               <td>
                 <select name="{{ negotiation.id }}" class="{% if negotiation.status %}initialaction-select{% else %}action-select{% endif %}">
                   {% if negotiation.status %}

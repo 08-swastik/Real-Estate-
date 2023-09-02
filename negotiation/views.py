@@ -70,62 +70,37 @@ def available_negotiations(request, property_id):
 
 
 def my_offers(request):
-    today = timezone.now().date()
+    
+    today = timezone.now()
     accepted_negotiations = Negotiation.objects.filter(
-        user=request.user, status='accepted', accepted_time__isnull=False,
-        accepted_time__date__gte=today - timezone.timedelta(days=2)
+        user=request.user, status='accepted', property__status='available'
     )
     
     negotiated_offers = []
     
     for negotiation in accepted_negotiations:
-        days_left = 2 - (today - negotiation.accepted_time.date()).days
-        negotiated_offers.append({'negotiation': negotiation, 'days_left': days_left})
+        time_difference = today - negotiation.accepted_time
+        days_difference = None
 
-        if days_left <= 0:
+        if time_difference.total_seconds() > 48*3600:
             negotiation.delete()
-    
-    return render(request, 'negotiations/my_offers.html', {'negotiated_offers': negotiated_offers})
-def my_offers(request):
-    today = timezone.now().date()
-    accepted_negotiations = Negotiation.objects.filter(
-        user=request.user, status='accepted', accepted_time__isnull=False,
-        accepted_time__date__gte=today - timezone.timedelta(days=2)
-    )
-    
-    negotiated_offers = []
-    
-    for negotiation in accepted_negotiations:
-        days_left = 2 - (today - negotiation.accepted_time.date()).days
-        negotiated_offers.append({'negotiation': negotiation, 'days_left': days_left})
 
-        if days_left <= 0:
-            negotiation.delete()
-    
-    return render(request, 'negotiations/my_offers.html', {'negotiated_offers': negotiated_offers})
-
-def my_offers(request):
-    today = timezone.now().date()
-    accepted_negotiations = Negotiation.objects.filter(
-        user=request.user, status='accepted'
-    )
-
-    negotiated_offers = []
-
-    for negotiation in accepted_negotiations:
-        if negotiation.accepted_time and negotiation.accepted_time.date() >= today - timezone.timedelta(days=2):
-            days_left = 2 - (today - negotiation.accepted_time.date()).days
-            negotiated_offers.append({'negotiation': negotiation, 'days_left': days_left})
         else:
-            negotiation.delete()
+            if time_difference.total_seconds() > 24*3600:
+                days_difference = 1
 
+            else:
+                 days_difference = 2   
+            
+        
+        negotiated_offers.append({'negotiation': negotiation, 'days_left': days_difference })
+        
+        
     return render(request, 'negotiations/my_offers.html', {'negotiated_offers': negotiated_offers})
-
-
 
 
 def my_negotiations(request):
-    negotiations = Negotiation.objects.filter(user=request.user)
+    negotiations = Negotiation.objects.filter(user=request.user,property__status = 'available')
     return render(request, 'negotiations/my_negotiations.html', {'negotiations': negotiations})
 
 

@@ -1,19 +1,28 @@
+from django.utils import timezone
 from django.http import JsonResponse
 from django.shortcuts import render
 from property_form.models import Property
+from negotiation.models import Negotiation
+import schedule
+from negotiation.negotiation_utils import expiry_check
 
 # Create your views here.
 def home(request):
+
+
+    if hasattr(request, 'user') and request.user.is_authenticated:
+
+        expiry_check(request.user)
 
     properties = Property.objects.all
 
     context = {
         'properties': properties,
     }
-    
-    
+
 
     return render(request,'home/home.html',context)
+
 
 
 def address_search(request):

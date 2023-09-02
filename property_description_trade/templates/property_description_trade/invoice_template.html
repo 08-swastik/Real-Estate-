@@ -7,106 +7,98 @@
 
 
     <style>
+      
+    
         @page {
             size: A4;
             margin: 0;
         }
         body {
             font-family: Arial, sans-serif;
-            /* margin: 0; */
+            margin: 0;
         }
 
-        
         .invoice-container {
-            width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px 20px 0 20px;
-            /* border: 1px solid #ccc; */
+            padding: 20px;
+            /* border: 2px solid #333; */
         }
         .header {
-            
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            /* gap: 15px;/ */
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
         }
 
-        p {
-
-            font-size: 3rem;
-        }
-        
-        
         .invoice-title {
-            font-size: 3rem;
-            text-align: center;
-            margin: 20px;
+            font-size: 24px;
         }
 
         .address {
-            /* margin-top: 20px; */
-            /* margin-bottom: 5px; */
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            justify-content: space-between;
+            margin-top: 20px;
         }
-        .address div {
-            width: 45%;
+
+        .address h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
         }
+        .address p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
         .item-list {
-            margin-top: 30px;
-            border-collapse: collapse;
+            margin-top: 20px;
             width: 100%;
-            margin-left: 20px;
-            margin-right: 20px;
+            border-collapse: collapse;
         }
         .item-list th,
         .item-list td {
-            border: 1px solid #ccc;
+            border: 1px solid #333;
             padding: 8px;
-            font-size: 2rem;
+            font-size: 16px;
             text-align: center;
         }
+        .item-list th {
+            background-color: #333;
+            color: #fff;
+        }
+
         .total {
             margin-top: 20px;
             text-align: right;
+            font-size: 18px;
         }
     </style>
 
-    <div class="invoice-container">
-        <div class="header">
-            <h1 class="invoice-title">RealtyHive</h1>
-            
-            <h1 class="invoice-title">Invoice</h1>
-        </div>
-        <div class="address">
-            <div>
-                <h2>To:</h2>
-                <p>{{ name }}</p>
-                <p>{{ email }}</p>
-            </div>
-            
-        </div>
-        <table class="item-list">
-            <tr>
-                
-                <th>Address</th>
-                <th>Price</th>
-                
-            </tr>
-            <tr>
-                
-                <td>{{ address }}</td>
-                <td>Rupees {{ amount }}</td>
-                
-            </tr>
-            <!-- Add more rows for additional items -->
-        </table>
-        <div class="total">
-            <p><strong>Total: Rupees {{ amount }}</strong></p>
-        </div>
+<div class="invoice-container">
+    <div class="header">
+        <h1 class="invoice-title">Invoice</h1>
+        
     </div>
+    <div class="address">
+        <h2>Bill To:</h2>
+        <p>{{ name }}</p>
+        <p>{{ email }}</p>
+    </div>
+    <table class="item-list">
+        <tr>
+            <th>Address</th>
+            <th>Price (Rupees)</th>
+        </tr>
+        <tr>
+            <td>{{ address }}</td>
+            <td> ₹ {{ amount }}</td>
+        </tr>
+        <!-- Add more rows for additional items -->
+    </table>
+    <div class="total">
+        <p><strong>Total: ₹ {{ amount }}</strong></p>
+    </div>
+</div>
+    
 
     {% endblock %}

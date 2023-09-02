@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from property_form.models import Property
 from django.contrib.auth.decorators import login_required
 from negotiation.models import Negotiation
@@ -13,9 +12,9 @@ from django.views.decorators.csrf import csrf_exempt
 from xhtml2pdf import pisa
 from io import BytesIO
 from django.core.mail import EmailMessage
-from django.conf import settings
+from negotiation.negotiation_utils import expiry_check
+from weasyprint import HTML
 
-# from paypal.standard.forms import PayPalPaymentsForm
 
 stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
 
@@ -27,7 +26,11 @@ def property_detail(request,property_id):
 
     property_obj = get_object_or_404(Property, id=property_id)
     user = request.user
+    
 
+    if hasattr(request, 'user') and request.user.is_authenticated:
+
+        expiry_check(request.user)
     
     
     highest_bid = Negotiation.objects.filter(property_id=property_id).order_by('-requested_price').first()
@@ -52,11 +55,18 @@ def property_detail(request,property_id):
         
     if hasattr(user, 'seller'):
         seller_or_client = user.seller.username
+        first_name = user.seller.first_name
+        last_name = user.seller.last_name
+        email = user.seller.email
+        phone = user.seller.phone_number
 
     elif hasattr(user, 'client'):
         seller_or_client = user.client.username
+        first_name = user.client.first_name
+        last_name = user.client.last_name
+        email = user.client.email
+        phone = user.client.phone_number
     
-    print(seller_or_client)
 
     is_sold = property_obj.status == 'sold'
 
@@ -65,7 +75,10 @@ def property_detail(request,property_id):
     
 
     context = {
-
+        'first_name' : first_name,
+        'last_name' : last_name,
+        'email' : email,
+        'phone_number' : phone,
         'highest_bidded_price': highest_bidded_price,
         'property_image': property_obj.pictures.url,
         'property_address': property_obj.address,
@@ -102,11 +115,14 @@ def confirmation(request) :
 
     property_obj = get_object_or_404(Property, id=property_id)
     seller_email = property_obj.seller.email
+    address = property_obj.address
 
     pdf = render_to_pdf("property_description_trade/invoice_template.html", {
             'name': name,
             'email': email,
-            'amount_total': amount_total,
+            'amount': amount_total,
+            'address' : address
+
         })
     
     send_confirmation_email(seller_email, pdf.content)
@@ -170,12 +186,10 @@ def send_confirmation_email(email, pdf_content):
 def render_to_pdf(template_path, context_dict):
     template = get_template(template_path)
     html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type="application/pdf")
-    return None
-
+    pdf_file = HTML(string=html).write_pdf()
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="your_pdf_file.pdf"'
+    return response
 
 
 @login_required(login_url='authentication:signin')
@@ -186,12 +200,8 @@ def checkout(request,property_id) :
     negotiation = Negotiation.objects.filter(user = request.user ,property=property, status='accepted').first()
     
 
-    
-
-
-    
     property_price = negotiation.requested_price if negotiation  else property.price
-    # print(property_price)
+
     try:
         print(property_price)
         unit_amount_in_cents = int(property_price * 10000000)
@@ -223,9 +233,9 @@ def checkout(request,property_id) :
             'property_id': property_id,  
             }
             
-            # logo=static('images/logo.png'),
+           
         )
-        # return HttpResponse(checkout_session.url)
+        
         return redirect(checkout_session.url, code= 303)
     
     except Exception as e:

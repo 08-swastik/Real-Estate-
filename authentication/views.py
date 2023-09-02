@@ -1,10 +1,11 @@
 from django.contrib import messages
-import datetime
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm , SellerLoginForm,ClientCreationForm,ClientLoginForm
 from .models import Seller,Client
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
+from negotiation.models import Negotiation
 
 #seller registration
 def seller_register(request):
@@ -44,7 +45,10 @@ def seller_login(request):
             if user is not None:
                 if hasattr(user, 'seller'):
                     login(request, user)
+
+                        
                     return redirect('home')
+                
                 
                 else :
                     messages.error(request, "Invalid login credentials.")
