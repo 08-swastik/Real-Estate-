@@ -71,6 +71,7 @@ def properties(request):
     else:
         properties = []
 
+    
     context = {
         'properties': properties,
         'searched_city': city,

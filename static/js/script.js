@@ -21,8 +21,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 function showError() {
   alert("Please log in or register as a seller first.");
-  window.location = "/"; // Redirect to the home page
+  window.location = "/"; 
 }
+
+function showError1() {
+  alert("Please log in first");
+  window.location = "/"; 
+}
+
+
 
 const searchInputAddress = document.getElementById('address-input');
 const searchButton = document.getElementById('search-button');

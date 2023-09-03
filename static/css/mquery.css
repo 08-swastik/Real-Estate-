@@ -1,49 +1,60 @@
-@media screen and (min-width: 540px) {
-  /* header image a gap size  */
-
-  /* increase company logo size ========== */
-
-  /* guide section style ========== */
-
-  /* increase font size of progress done  */
+@media (min-width: 768px) {
+  .container1 { max-width: 720px; }
 }
 
-@media screen and (min-width: 700px) {
-  /* increase company logo size ========== */
+@media  (min-width: 600px) {
+ 
+  .property .container1 {
+    max-width: unset;
+    padding-inline: 25px;
+  }
 
-  /* setup placeholder image  */
+  .has-scrollbar {
+    gap: 25px;
+    margin-inline: -25px;
+    padding-inline: 25px;
+    scroll-padding-left: 25px;
+  }
 
-  /* footer top  */
+  .has-scrollbar > li { min-width: calc(50% - 12.5px); }
+}
 
-  /* footer bottom */
+@media (min-width: 992px) {
+  .container1 { max-width: 970px; }
+  .property-card .card-content { padding-inline: 30px; }
 }
 
 @media screen and (min-width: 850px) {
-  /* show desktop navigation ========== */
+
   header .left .nav-desktop {
     display: block;
     display: flex;
   }
-  /* hide hamburger menu ==========  */
+
   .hamb {
     display: none;
   }
-  /* hero title size ========== */
+
   .hero .desc .title {
     font-size: 42px;
 
   }
 }
 
+@media (min-width: 1200px) {
+  .container1 { max-width: 1200px; }
+  .has-scrollbar > li { min-width: calc(33.33% - 16.66px); }
+}
+
 @media screen and (min-width: 920px) {
-  /* increase hero background image size ========== */
+ 
   .hero {
     background-size: 35%;
   }
 }
 
 @media screen and (min-width: 1280px) {
-  /* increase hero background image size ========== */
+  
   .hero {
     background-size: 37%;
   }

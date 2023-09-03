@@ -18,7 +18,7 @@
   --clr-text-light: #7d8589;
   --clr-text-light-80: #a3a6ab;
   --alice-blue: hsl(210, 100%, 97%);
-
+  --shadow-2: 0 16px 32px hsla(188, 63%, 7%, 0.1);
   --section-padding: 100px;
 }
 * {
@@ -31,6 +31,9 @@ html {
   scroll-behavior: smooth;
 }
 
+span {
+  display: block;
+}
 body {
   
   font-family: "Poppins", sans-serif;
@@ -392,6 +395,7 @@ p {
 
 .property {
     padding-block: var(--section-padding);
+    background-color: #e6f0ff;
 }
 
 .section-subtitle {
@@ -413,47 +417,38 @@ p {
 }
 
 .property-card {
-  border: 1px solid var(--alice-blue); 
-  
+ 
+  box-shadow: var(--shadow-2);
 }
 
 .property-card .card-banner {
   position: relative;
-  /* aspect-ratio: 2 / 1.5; */
+  aspect-ratio: 1.5 / 0.8;
   overflow: hidden;
-  width: 600px;
-  height: 336px;
+
 }
 
 .property-card .card-banner img {
-  width: 100%;
+
   height: 100%;
   object-fit: cover;
   transition: 0.5s ease;
-  display: block;
+  height: 21rem;
+  width: 42rem;
+
 }
 
 .property-card:hover .card-banner img 
 { transform: scale(1.1); }
 
-.property-card .card-banner::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* background: linear-gradient(to top, hsla(0, 0%, 0%, 0.95), transparent 30%); */
-  pointer-events: none;
-  z-index: 1;
-}
+
 
 .property-card .card-content {
   padding: 10px 15px 15px;
-  border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
- 
 }
 
 .card-price {
   color: var(--clr-primary);
-  font-size: 1.5rem;
   margin-bottom: 5px;
 }
 
@@ -464,15 +459,11 @@ p {
   
 }
 
-.property-card .card-title a{
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: var(--clr-black);
-}
 
 .property-card .card-title {
+  color: var(--clr-black);
+  margin-bottom: 15px;
   font-weight: 600;
-  /* margin-bottom: 15px; */
 }
 
 .property-card .card-text {
@@ -485,7 +476,7 @@ p {
 
 .property-card .card-list {
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   align-items: center;
   row-gap: 15px;
 }
@@ -509,24 +500,33 @@ p {
   margin-bottom: -2px;
 }
 
+.has-scrollbar {
+  gap: 25px;
+  margin-inline: -25px;
+  padding-inline: 25px;
+  scroll-padding-left: 25px;
+}
+
 .property-card .card-item span { margin-top: 5px; }
 
 .has-scrollbar {
   display: flex;
   align-items: flex-start;
-  gap: 25px;
+  gap: 15px;
   overflow-x: auto;
-  margin-inline: -25px;
-  padding-inline: 25px;
-  scroll-padding-left: 25px;
-  padding-bottom: 35px;
+  margin-inline: -15px;
+  padding-inline: -15px;
+  scroll-padding-left: 15px;
+  padding-bottom: 60px;
   scroll-snap-type: inline mandatory;
 }
 
 .has-scrollbar > li {
-  min-width: calc(33.33% - 16.66px);
+  min-width: 100%;
   scroll-snap-align: start;
 }
+
+
 
 .has-scrollbar::-webkit-scrollbar-track {
   background: var(--cultured-2);
@@ -560,9 +560,8 @@ li { list-style: none; }
 .w-100 { width: 100%;
 }
 
-.property .container1 {
-  max-width: unset;
-  padding-inline: 25px;
+.container1 {
+   padding-inline: 15px;
 }
 
 .favorite-button {

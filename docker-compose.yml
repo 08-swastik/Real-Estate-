@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/realtyhive
     ports:
@@ -15,17 +15,23 @@ services:
       DJANGO_DB_HOST: db
 
     env_file:
-      - ./real_estate/.env  
+      - .env
 
   db:
-  image: postgres:15.3  
+    image: postgres:15.3  
 
-  environment:
-    POSTGRES_DB: ${DATABASE_NAME}
-    POSTGRES_USER: ${DATABASE_USER}
-    POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    POSTGRES_HOST: ${DATABASE_HOST}
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_HOST: ${DATABASE_HOST}
 
-  volumes:
-    - db_data:/var/lib/postgresql/data
+    env_file:
+      - .env
 
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  

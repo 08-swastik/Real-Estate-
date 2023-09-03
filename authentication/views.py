@@ -1,11 +1,11 @@
 from django.contrib import messages
-from django.utils import timezone
+
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm , SellerLoginForm,ClientCreationForm,ClientLoginForm
 from .models import Seller,Client
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
-from negotiation.models import Negotiation
+
 
 #seller registration
 def seller_register(request):
@@ -14,8 +14,7 @@ def seller_register(request):
         if form.is_valid():
            
             user = form.save()
-
-            
+                        
             seller = Seller(user = user,username = form.cleaned_data.get('username'),first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'),email=form.cleaned_data.get('email'),phone_number = form.cleaned_data.get('phone_number') )
             
             seller.save()

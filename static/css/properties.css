@@ -74,6 +74,16 @@ li { list-style: none; }
     font-size: 24px;
     color: #333333;
     font-weight: 500;
+    margin-top: -8px;
+  }
+
+  .heading1 {
+    padding-top: 15px;
+    padding-left: 22px;
+    font-size: 24px;
+    color: #333333;
+    font-weight: 500;
+    margin-top: 100px;
   }
   
   .custom-dropdown {
@@ -492,7 +502,7 @@ li { list-style: none; }
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: 5px;
   }
   
   .favorite-button {

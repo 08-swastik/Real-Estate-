@@ -9,8 +9,7 @@ from django.template.loader import get_template
 import stripe
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from xhtml2pdf import pisa
-from io import BytesIO
+
 from django.core.mail import EmailMessage
 from negotiation.negotiation_utils import expiry_check
 from weasyprint import HTML
