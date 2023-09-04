@@ -8,6 +8,7 @@ charset-normalizer==3.2.0
 click==8.1.7
 cryptography==41.0.3
 cssselect2==0.7.0
+dj-database-url==2.1.0
 Django==4.2.4
 django-environ==0.10.0
 fonttools==4.42.1
@@ -42,5 +43,5 @@ uritools==4.0.1
 urllib3==2.0.4
 weasyprint==59.0
 webencodings==0.5.1
+xhtml2pdf==0.2.11
 zopfli==0.2.2
-
