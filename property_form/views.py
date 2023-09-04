@@ -8,7 +8,7 @@ def create_property(request):
 
     if request.method == 'POST':
         address = request.POST.get('address')
-        city = request.POST.get('address')
+        city = request.POST.get('city')
         square_feet = request.POST.get('square_feet')
         overview = request.POST.get('overview')
         bhk = request.POST.get('bhk')
