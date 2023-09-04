@@ -45,7 +45,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'DEBUG',  # Set the desired log level
+        'level': 'DEBUG',  
     },
 }
 
@@ -58,7 +58,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 
-NGROK_URL = 'https://realty-hive-0lif.onrender.com/' 
+NGROK_URL = 'https://realty-hive-0lif.onrender.com' 
 
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
@@ -93,7 +93,7 @@ MIDDLEWARE = [
 
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://realty-hive-0lif.onrender.com/']
+CSRF_TRUSTED_ORIGINS = ['https://realty-hive-0lif.onrender.com']
 
 
 ROOT_URLCONF = 'real_estate.urls'
