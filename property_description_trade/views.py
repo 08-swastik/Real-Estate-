@@ -109,7 +109,7 @@ def confirmation(request) :
     print(confirmation_data) 
     email = confirmation_data.email
     name = confirmation_data.name
-    amount_total = confirmation_data.amount_total
+    amount_total = confirmation_data.amount_total/100
 
 
     property_obj = get_object_or_404(Property, id=property_id)
@@ -145,7 +145,7 @@ def download_pdf(request,property_id):
      
     email = confirmation_data.email
     name = confirmation_data.name
-    amount_total = confirmation_data.amount_total
+    amount_total = confirmation_data.amount_total/100
     address = confirmation_data.property.address
     context = {
         'email': email,
