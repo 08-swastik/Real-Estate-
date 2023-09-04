@@ -33,7 +33,7 @@ SECRET_KEY= 'django-insecure-t^9#%j*$1$07_h%1)n#q+war2^2@3#sqy@hj47z=xj5*10^o62'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['1258-117-250-64-132.ngrok-free.app']
+ALLOWED_HOSTS = ['realty-hive-0lif.onrender.com']
 
 LOGGING = {
     'version': 1,
@@ -58,9 +58,10 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 
-NGROK_URL = 'http://127.0.0.1:8000/' 
+NGROK_URL = 'https://realty-hive-0lif.onrender.com/' 
 
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 
 ENDPOINT_SECRET = os.environ.get("ENDPOINT_SECRET")
 # Application definition
@@ -92,7 +93,7 @@ MIDDLEWARE = [
 
 ]
 
-# CSRF_TRUSTED_ORIGINS = ['https://1258-117-250-64-132.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://realty-hive-0lif.onrender.com/']
 
 
 ROOT_URLCONF = 'real_estate.urls'
